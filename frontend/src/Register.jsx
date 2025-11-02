@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +7,14 @@ export default function Register() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ userName: "", email: "", password: "" });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    // 🧹 clear any old tokens to prevent auto-login
+    localStorage.removeItem("token");
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,27 +24,64 @@ export default function Register() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Registered successfully!");
+        toast.success("🎉 Registration successful!");
+        // Optional: auto-login after registration
         localStorage.setItem("token", data.token);
         setTimeout(() => navigate("/charging"), 1500);
-      } else toast.warn(data.message);
+      } else {
+        toast.warn(`⚠️ ${data.message}`);
+      }
     } catch (err) {
-      toast.error("Server error!");
+      toast.error("❌ Server error, please try again.");
     }
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{ maxWidth: 400 }}>
       <ToastContainer />
-      <form onSubmit={handleSubmit} className="card p-4 mx-auto" style={{ maxWidth: 400 }}>
-        <h4 className="mb-3">Register</h4>
-        <input name="userName" className="form-control mb-2" placeholder="Username" onChange={handleChange} />
-        <input name="email" type="email" className="form-control mb-2" placeholder="Email" onChange={handleChange} />
-        <input name="password" type="password" className="form-control mb-2" placeholder="Password" onChange={handleChange} />
-        <button className="btn btn-primary w-100">Register</button>
+      <form onSubmit={handleSubmit} className="card p-4 shadow">
+        <h4 className="mb-3 text-center text-success">Register</h4>
+        <input
+          name="userName"
+          className="form-control mb-3"
+          placeholder="Username"
+          value={form.userName}
+          onChange={handleChange}
+        />
+        <input
+          name="email"
+          type="email"
+          className="form-control mb-3"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+        />
+        <input
+          name="password"
+          type="password"
+          className="form-control mb-3"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <button type="submit" className="btn btn-success w-100 mb-2">
+          Register
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary w-100"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
       </form>
     </div>
   );
