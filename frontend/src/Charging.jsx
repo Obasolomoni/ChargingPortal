@@ -21,7 +21,7 @@ function Charging() {
     // Fetch sessions
     const fetchData = async () => {
         try {
-            const res = await fetch("http://localhost:2000/api/charge");
+            const res = await fetch("https://chargingportal.onrender.com/api/charge");
             const data = await res.json();
             setRows(data);
         } catch (err) {
@@ -36,7 +36,7 @@ function Charging() {
     // Submit new session
     const handleSubmit = async () => {
         try {
-            const res = await fetch("http://localhost:2000/api/charge", {
+            const res = await fetch("https://chargingportal.onrender.com/api/charge", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -63,7 +63,7 @@ function Charging() {
     // ✅ Update session when device is collected
     const handleCollect = async (id) => {
         try {
-            const res = await fetch(`http://localhost:2000/api/charge/${id}`, {
+            const res = await fetch(`https://chargingportal.onrender.com/charge/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
