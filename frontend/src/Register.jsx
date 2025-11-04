@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ userName: "", email: "", password: "" });
+  const [form, setForm] = useState({ userName: "", userEmail: "", userPassword: "" });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,7 +19,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:2000/api/users/register", {
+      const res = await fetch("http://localhost:2000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -57,19 +57,19 @@ export default function Register() {
           onChange={handleChange}
         />
         <input
-          name="email"
+          name="userEmail"
           type="email"
           className="form-control mb-3"
           placeholder="Email"
-          value={form.email}
+          value={form.userEmail}
           onChange={handleChange}
         />
         <input
-          name="password"
+          name="userPassword"
           type="password"
           className="form-control mb-3"
           placeholder="Password"
-          value={form.password}
+          value={form.userPassword}
           onChange={handleChange}
         />
         <button type="submit" className="btn btn-success w-100 mb-2">
