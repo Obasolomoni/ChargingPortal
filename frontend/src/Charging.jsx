@@ -63,7 +63,7 @@ function Charging() {
     // ✅ Update session when device is collected
     const handleCollect = async (id) => {
         try {
-            const res = await fetch(`https://chargingportal.onrender.com/charge/${id}`, {
+            const res = await fetch(`https://chargingportal.onrender.com/api/charge/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
