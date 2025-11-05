@@ -112,12 +112,6 @@ function Charging() {
         row.userNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // ✅ Handle pagination (optional)
-  const currentRecords = filteredRecords.slice(
-    (currentPage - 1) * recordsPerPage,
-    currentPage * recordsPerPage
-  );
-
   // ✅ Reset to first page whenever search changes
   useEffect(() => {
     setCurrentPage(1);
