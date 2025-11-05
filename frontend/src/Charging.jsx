@@ -15,8 +15,8 @@ function Charging() {
     });
     const [rows, setRows] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
 
     // Fetch sessions
     const fetchData = async () => {
@@ -92,16 +92,25 @@ function Charging() {
 
     const handleChange = (e) => setFormData({ ...formData, [e.target.id]: e.target.value });
 
+
+    //  Pagination
     const recordsPerPage = 10;
     const totalPages = Math.ceil(rows.length / recordsPerPage);
     const currentRecords = rows.slice((currentPage - 1) * recordsPerPage, currentPage * recordsPerPage);
 
+    // logout
     const handleLogout = () => {
         localStorage.clear();
         toast.info("Logging out...");
         setTimeout(() => navigate("/login"), 1000);
     };
 
+    // ✅ Filter records instantly
+    const filteredRecords = rows.filter((row) =>
+        row.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.mobileName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.userNumber.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div className="container-fluid px-3 px-md-5 mt-4">
