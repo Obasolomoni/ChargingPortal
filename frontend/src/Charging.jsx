@@ -112,6 +112,24 @@ function Charging() {
         row.userNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // ✅ Handle pagination (optional)
+  const currentRecords = filteredRecords.slice(
+    (currentPage - 1) * recordsPerPage,
+    currentPage * recordsPerPage
+  );
+
+  // ✅ Reset to first page whenever search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  // ✅ Show toast if no match
+  useEffect(() => {
+    if (searchTerm && filteredRecords.length === 0) {
+      toast.warning("No matching records found");
+    }
+  }, [searchTerm, filteredRecords]);
+
     return (
         <div className="container-fluid px-3 px-md-5 mt-4">
             <ToastContainer position="top-right" autoClose={2000} />
