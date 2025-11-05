@@ -157,7 +157,7 @@ function Charging() {
           <input
             type="search"
             className="form-control w-100 w-md-auto"
-            placeholder="🔍 Search by name, phone or number"
+            placeholder="🔍 Search by name, phone, number or slot"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ maxWidth: "250px" }}
