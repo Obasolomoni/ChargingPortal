@@ -65,7 +65,7 @@ function Charging() {
     }, [searchTerm, filteredRecords]);
 
     // ✅ Submit new session
-    const handleSubmit = async () => {
+    const handleSubmit = async (status) => {
         try {
             const res = await fetch("https://chargingportal.onrender.com/api/charge", {
                 method: "POST",
@@ -92,61 +92,68 @@ function Charging() {
         } catch {
             toast.error("Server error");
         }
+
+        if (status === "Pending") ({
+            timeCharged:
+            status === "Charging" ? new Date().toLocaleTimeString() : "",
+                dateCharged:
+            status === "Charging" ? new Date().toLocaleDateString() : "",
+        })
     };
 
     // ✅ Update session when collected
     const handleSessionChange = async (id, newStatus) => {
-  try {
-    const res = await fetch(`https://chargingportal.onrender.com/api/charge/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        session: newStatus,
-        timeCharged:
-          newStatus === "Charging" ? new Date().toLocaleTimeString() : "",
-        dateCharged:
-          newStatus === "Charging" ? new Date().toLocaleDateString() : "",
-        timeCollected:
-          newStatus === "Collected" ? new Date().toLocaleTimeString() : "",
-        dateCollected:
-          newStatus === "Collected" ? new Date().toLocaleDateString() : "",
-      }),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      // ✅ Force update local state
-      setRows((prev) =>
-        prev.map((row) =>
-          row._id === id
-            ? {
-                ...row,
-                session: newStatus,
-                ...(newStatus === "Charging" && {
-                  timeCharged: new Date().toLocaleTimeString(),
-                  dateCharged: new Date().toLocaleDateString(),
-                  timeCollected: "",
-                  dateCollected: "",
+        try {
+            const res = await fetch(`https://chargingportal.onrender.com/api/charge/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    session: newStatus,
+                    timeCharged:
+                        newStatus === "Charging" ? new Date().toLocaleTimeString() : "",
+                    dateCharged:
+                        newStatus === "Charging" ? new Date().toLocaleDateString() : "",
+                    timeCollected:
+                        newStatus === "Collected" ? new Date().toLocaleTimeString() : "",
+                    dateCollected:
+                        newStatus === "Collected" ? new Date().toLocaleDateString() : "",
                 }),
-                ...(newStatus === "Collected" && {
-                  timeCollected: new Date().toLocaleTimeString(),
-                  dateCollected: new Date().toLocaleDateString(),
-                }),
-              }
-            : row
-        )
-      );
+            });
 
-      toast.success(`✅ Session changed to ${newStatus}`);
-    } else {
-      toast.warning(data.message || "Failed to update session");
-    }
-  } catch (error) {
-    console.error("Error updating session:", error);
-    toast.error("Server error");
-  }
-};
+            const data = await res.json();
+
+            if (res.ok) {
+                // ✅ Force update local state
+                setRows((prev) =>
+                    prev.map((row) =>
+                        row._id === id
+                            ? {
+                                ...row,
+                                session: newStatus,
+                                ...(newStatus === "Charging" && {
+                                    timeCharged: new Date().toLocaleTimeString(),
+                                    dateCharged: new Date().toLocaleDateString(),
+                                    timeCollected: "",
+                                    dateCollected: "",
+                                }),
+                                ...(newStatus === "Collected" && {
+                                    timeCollected: new Date().toLocaleTimeString(),
+                                    dateCollected: new Date().toLocaleDateString(),
+                                }),
+                            }
+                            : row
+                    )
+                );
+
+                toast.success(`✅ Session changed to ${newStatus}`);
+            } else {
+                toast.warning(data.message || "Failed to update session");
+            }
+        } catch (error) {
+            console.error("Error updating session:", error);
+            toast.error("Server error");
+        }
+    };
 
 
     // ✅ Handle form input
@@ -299,21 +306,27 @@ function Charging() {
                                     <td>
                                         <select
                                             className={`form-select form-select-sm ${rec.session === "Charging"
-                                                    ? "bg-success text-white"
-                                                    : rec.session === "Pending"
-                                                        ? "bg-warning text-dark"
-                                                        : rec.session === "Collected"
-                                                            ? "bg-info text-dark"
-                                                            : ""
+                                                ? "bg-success text-white"
+                                                : rec.session === "Pending"
+                                                    ? "bg-warning text-dark"
+                                                    : "bg-info text-dark"
                                                 }`}
                                             value={rec.session}
                                             onChange={(e) => handleSessionChange(rec._id, e.target.value)}
+                                            disabled={rec.session === "Collected"} // ✅ Disable if collected
                                         >
-                                            <option value="Charging">Charging</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Collected">Collected</option>
+                                            {rec.session === "Pending" && (
+                                                <>
+                                                    <option value="Charging">Charging</option>
+                                                </>
+                                            )}
+
+                                            {rec.session === "Collected" && (
+                                                <option value="Collected">Collected</option>
+                                            )}
                                         </select>
                                     </td>
+
 
 
                                 </tr>
