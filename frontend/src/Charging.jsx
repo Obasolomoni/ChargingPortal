@@ -95,9 +95,9 @@ function Charging() {
 
         if (status === "Pending") ({
             timeCharged:
-            status === "Charging" ? new Date().toLocaleTimeString() : "",
+            status === "Pending" ? new Date().toLocaleTimeString() : "",
                 dateCharged:
-            status === "Charging" ? new Date().toLocaleDateString() : "",
+            status === "Pending" ? new Date().toLocaleDateString() : "",
         })
     };
 
