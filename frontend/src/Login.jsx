@@ -25,7 +25,7 @@ export default function Login() {
       if (res.ok) {
         toast.success("✅ Login successful!");
         localStorage.setItem("token", data.token);
-        setTimeout(() => navigate("/charging"), 1500);
+        setTimeout(() => navigate("/charging"), 1000);
       } else {
         toast.warn(`⚠️ ${data.message}`);
       }
