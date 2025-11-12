@@ -95,13 +95,12 @@ function Charging() {
 
         if (status === "Pending") ({
             timeCharged:
-            status === "Pending" ? new Date().toLocaleTimeString() : "",
-                dateCharged:
-            status === "Pending" ? new Date().toLocaleDateString() : "",
+                status === "Pending" ? new Date().toLocaleTimeString() : "",
+            dateCharged:
+                status === "Pending" ? new Date().toLocaleDateString() : "",
         })
     };
 
-    // ✅ Update session when collected
     const handleSessionChange = async (id, newStatus) => {
         try {
             const res = await fetch(`https://chargingportal.onrender.com/api/charge/${id}`, {
@@ -109,21 +108,22 @@ function Charging() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     session: newStatus,
-                    timeCharged:
-                        newStatus === "Charging" ? new Date().toLocaleTimeString() : "",
-                    dateCharged:
-                        newStatus === "Charging" ? new Date().toLocaleDateString() : "",
-                    timeCollected:
-                        newStatus === "Collected" ? new Date().toLocaleTimeString() : "",
-                    dateCollected:
-                        newStatus === "Collected" ? new Date().toLocaleDateString() : "",
+                    ...(newStatus === "Charging" && {
+                        timeCharged: new Date().toLocaleTimeString(),
+                        dateCharged: new Date().toLocaleDateString(),
+                        timeCollected: "",
+                        dateCollected: "",
+                    }),
+                    ...(newStatus === "Collected" && {
+                        timeCollected: new Date().toLocaleTimeString(),
+                        dateCollected: new Date().toLocaleDateString(),
+                    }),
                 }),
             });
 
             const data = await res.json();
 
             if (res.ok) {
-                // ✅ Force update local state
                 setRows((prev) =>
                     prev.map((row) =>
                         row._id === id
@@ -154,7 +154,6 @@ function Charging() {
             toast.error("Server error");
         }
     };
-
 
     // ✅ Handle form input
     const handleChange = (e) =>
@@ -306,18 +305,27 @@ function Charging() {
                                     <td>
                                         <select
                                             className={`form-select form-select-sm ${rec.session === "Charging"
-                                                ? "bg-success text-white"
-                                                : rec.session === "Pending"
-                                                    ? "bg-warning text-dark"
-                                                    : "bg-info text-dark"
+                                                    ? "bg-success text-white"
+                                                    : rec.session === "Pending"
+                                                        ? "bg-warning text-dark"
+                                                        : "bg-info text-dark"
                                                 }`}
                                             value={rec.session}
                                             onChange={(e) => handleSessionChange(rec._id, e.target.value)}
-                                            disabled={rec.session === "Collected"} // ✅ Disable if collected
+                                            disabled={rec.session === "Collected"} // ✅ disable dropdown if already collected
                                         >
                                             {rec.session === "Pending" && (
                                                 <>
+                                                    <option value="Pending">Pending</option>
                                                     <option value="Charging">Charging</option>
+                                                    <option value="Collected">Collected</option>
+                                                </>
+                                            )}
+
+                                            {rec.session === "Charging" && (
+                                                <>
+                                                    <option value="Charging">Charging</option>
+                                                    <option value="Collected">Collected</option>
                                                 </>
                                             )}
 
@@ -326,6 +334,7 @@ function Charging() {
                                             )}
                                         </select>
                                     </td>
+
 
 
 
