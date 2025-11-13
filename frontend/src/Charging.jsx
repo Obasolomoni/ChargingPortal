@@ -99,6 +99,15 @@ function Charging() {
             dateCharged:
                 status === "Pending" ? new Date().toLocaleDateString() : "",
         })
+        if (res.ok) {
+            toast.info(data.message);
+            setRows((prev) => [...prev, data.session]);
+            setFormData({ userName: "", mobileName: "", userNumber: "", slotName: "", session: "" });
+            setShowModal(false);
+        } else {
+            toast.warning(data.message);
+        }
+
     };
 
     const handleSessionChange = async (id, newStatus) => {
@@ -305,10 +314,10 @@ function Charging() {
                                     <td>
                                         <select
                                             className={`form-select form-select-sm ${rec.session === "Charging"
-                                                    ? "bg-success text-white"
-                                                    : rec.session === "Pending"
-                                                        ? "bg-warning text-dark"
-                                                        : "bg-info text-dark"
+                                                ? "bg-success text-white"
+                                                : rec.session === "Pending"
+                                                    ? "bg-warning text-dark"
+                                                    : "bg-info text-dark"
                                                 }`}
                                             value={rec.session}
                                             onChange={(e) => handleSessionChange(rec._id, e.target.value)}
