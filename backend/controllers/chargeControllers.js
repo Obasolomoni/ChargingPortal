@@ -4,7 +4,7 @@ import charge from "../models/chargeModels.js";
 const nowLagos = () => {
   const options = {
     timeZone: "Africa/Lagos",
-    hour12: false,
+    hour12: true,
   };
 
   return {
