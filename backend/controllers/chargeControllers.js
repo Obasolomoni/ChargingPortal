@@ -33,11 +33,11 @@ export const postCharge = async (req, res) => {
       slotName,
       session,
       dateCharged:
-        session === "Pending"
+        session === "Charging"
           ? new Date().toLocaleDateString("en-NG", { timeZone: "Africa/Lagos" })
           : "",
       timeCharged:
-        session === "Pending"
+        session === "Charging"
           ? new Date().toLocaleTimeString("en-NG", {
               timeZone: "Africa/Lagos",
             })
