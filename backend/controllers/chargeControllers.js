@@ -1,5 +1,18 @@
 import charge from "../models/chargeModels.js";
 
+// Format time in Africa/Lagos
+const nowLagos = () => {
+  const options = {
+    timeZone: "Africa/Lagos",
+    hour12: false,
+  };
+
+  return {
+    time: new Date().toLocaleTimeString("en-NG", options),
+    date: new Date().toLocaleDateString("en-NG", { timeZone: "Africa/Lagos" }),
+  };
+};
+
 // Get all sessions
 export const getAllCharge = async (req, res) => {
   try {
@@ -10,12 +23,12 @@ export const getAllCharge = async (req, res) => {
   }
 };
 
-// Get by ID
-export const getAllChargeById = async (req, res) => {
+// Get by id
+export const getChargeById = async (req, res) => {
   try {
-    const single = await charge.findById(req.params.id);
-    if (!single) return res.status(404).json({ message: "Session not found" });
-    res.json(single);
+    const charges = await charge.findById(req.params.id);
+    if (!charges) return res.status(404).json({ message: "Session not found" });
+    res.json(charges);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -24,34 +37,16 @@ export const getAllChargeById = async (req, res) => {
 // Create new session
 export const postCharge = async (req, res) => {
   try {
-    const { userName, mobileName, userNumber, slotName, session } = req.body;
+    const { date, time } = nowLagos();
 
     const newCharge = new charge({
-      userName,
-      mobileName,
-      userNumber,
-      slotName,
-      session,
-      dateCharged:
-        session === "Charging"
-          ? new Date().toLocaleDateString("en-NG", { timeZone: "Africa/Lagos" })
-          : "",
-      timeCharged:
-        session === "Charging"
-          ? new Date().toLocaleTimeString("en-NG", {
-              timeZone: "Africa/Lagos",
-            })
-          : "",
-      dateCollected: "",
-      timeCollected: "",
+      ...req.body,
+      dateCharged: req.body.session === "Charging" ? date : "",
+      timeCharged: req.body.session === "Charging" ? time : "",
     });
 
     await newCharge.save();
-
-    res.status(201).json({
-      message: "Session created successfully",
-      session: newCharge,
-    });
+    res.status(201).json({ message: "Session created", session: newCharge });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -61,36 +56,29 @@ export const postCharge = async (req, res) => {
 export const updateCharge = async (req, res) => {
   try {
     const { session } = req.body;
+    const timestamps = nowLagos();
 
-    const updateBody = {
-      session,
-    };
+    const updateObj = { session };
 
     if (session === "Charging") {
-      updateBody.dateCharged = new Date().toLocaleDateString("en-NG", {
-        timeZone: "Africa/Lagos",
-      });
-      updateBody.timeCharged = new Date().toLocaleTimeString("en-NG", {
-        timeZone: "Africa/Lagos",
-      });
-      updateBody.dateCollected = "";
-      updateBody.timeCollected = "";
+      updateObj.dateCharged = timestamps.date;
+      updateObj.timeCharged = timestamps.time;
+      updateObj.dateCollected = "";
+      updateObj.timeCollected = "";
     }
 
     if (session === "Collected") {
-      updateBody.dateCollected = new Date().toLocaleDateString("en-NG", {
-        timeZone: "Africa/Lagos",
-      });
-      updateBody.timeCollected = new Date().toLocaleTimeString("en-NG", {
-        timeZone: "Africa/Lagos",
-      });
+      updateObj.dateCollected = timestamps.date;
+      updateObj.timeCollected = timestamps.time;
     }
 
-    const updated = await charge.findByIdAndUpdate(req.params.id, updateBody, {
-      new: true,
-    });
+    const updatedCharge = await charge.findByIdAndUpdate(
+      req.params.id,
+      updateObj,
+      { new: true }
+    );
 
-    res.json({ message: "Session updated", session: updated });
+    res.json({ message: "Session updated", session: updatedCharge });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
