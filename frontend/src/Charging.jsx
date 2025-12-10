@@ -125,6 +125,7 @@ function Charging() {
             .includes(searchTerm.toLowerCase())
     );
 
+    // Logout user from the page and clear token
     const handleLogout = () => {
         localStorage.clear();
         toast.info("Logging out...");
