@@ -4,6 +4,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
+import Navbar from "./Navbar";
+
 function Charging() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -133,34 +136,10 @@ function Charging() {
     };
 
     return (
-        <div className="container-fluid px-3 px-md-5 mt-4">
-            <ToastContainer position="top-right" autoClose={2000} />
-
-            {/* Header */}
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-                <h3 className="fw-bold text-primary text-center text-md-start">
-                    ⚡ LFC Charging Portal
-                </h3>
-
-                <div className="d-flex flex-wrap gap-2 justify-content-center">
-                    <input
-                        type="search"
-                        className="form-control"
-                        placeholder="🔍 Search device, name or number"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ maxWidth: "250px" }}
-                    />
-
-                    <button className="btn btn-success" onClick={() => setShowModal(true)}>
-                        + Add Session
-                    </button>
-
-                    <button className="btn btn-warning" onClick={handleLogout}>
-                        Logout
-                    </button>
-                </div>
-            </div>
+        <>
+          <Navbar />
+        <div className="container-fluid px-3 px-md-5 mt-4 mx-10">
+            <ToastContainer position="top-right" autoClose={2000} />  
 
             {/* Add Modal */}
             {showModal && (
@@ -283,6 +262,9 @@ function Charging() {
                 </table>
             </div>
         </div>
+        </>
+        
+        
     );
 }
 
