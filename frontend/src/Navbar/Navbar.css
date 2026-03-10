@@ -1,0 +1,44 @@
+nav {
+  height: 100%;
+  width: 250px;
+  padding: 20px 30px;
+  background: #111;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow-x: hidden;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-size: 16px;
+  padding: 6px 0;
+}
+
+.logoutBtn {
+  background: red;
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+}

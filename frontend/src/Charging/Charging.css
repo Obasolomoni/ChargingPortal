@@ -1,0 +1,98 @@
+/* Container */
+.charging-container {
+  padding: 20px;
+  max-width: 1200px;
+  font-family: Arial, sans-serif;
+  margin-left:18%;
+}
+
+/* Search input */
+.searchInput {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Table wrapper for horizontal scroll */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px; /* prevents squashing columns */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+thead th {
+  background-color: #007BFF;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+tbody td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: #111;
+}
+
+/* Row hover */
+tbody tr:hover {
+  background-color: #d0e7ff;
+}
+
+/* Status badges */
+.badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.badge-charging {
+  background-color: #28a745;
+}
+
+.badge-pending {
+  background-color: #ffc107;
+  color: #111;
+}
+
+.badge-collected {
+  background-color: #17a2b8;
+}
+
+/* Empty row */
+.emptyRow {
+  padding: 20px;
+  color: gray;
+}
+
+/* Select dropdown */
+select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0,123,255,0.4);
+}
