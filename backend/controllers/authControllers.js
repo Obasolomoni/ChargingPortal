@@ -47,3 +47,12 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getUserName = async (req, res) => {
+  try {
+    const userName = await Users.find()
+    res.json(userName);
+  } catch(error) {
+    res.status(500).json({message: err.message});
+  }
+} 
