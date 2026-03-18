@@ -40,5 +40,22 @@ nav {
   padding: 6px 12px;
   color: #fff;
   cursor: pointer;
-  margin-top: 20px;
+  width: 100%;
+}
+
+.profile {
+  margin-top: 23rem;
+}
+
+@media (max-width: 860px) {
+  nav {
+  height: 100%;
+  padding: 20px 30px;
+  background: #111;
+  color: #fff;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow-x: hidden;
+}
 }

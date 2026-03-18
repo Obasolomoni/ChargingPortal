@@ -11,6 +11,7 @@ function StartSession() {
     session: "Charging"
   });
 
+  
   // 🔥 Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,9 +86,13 @@ function StartSession() {
               value={formData.slotName}
               onChange={handleChange}
             />
-            <select>
+            <select className="selectBar">
               <option value={formData.session}>Charging</option>
               <option value={formData.session}>Pending</option>
+              </select>
+              <select>
+
+                <option>Show More</option>
               </select>
           </div>
 
