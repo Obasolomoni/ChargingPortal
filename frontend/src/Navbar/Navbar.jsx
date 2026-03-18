@@ -17,7 +17,7 @@ const fetchUserName = async () => {
    try {
         const res = await fetch("https://chargingportal.onrender.com/api/auth/userName");
         const data = await res.json();
-        setUserName(data?.userName);
+        setUserName(userName);
       } catch (err) {
         toast.error("Failed to fetch data");
       }
