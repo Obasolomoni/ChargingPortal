@@ -50,7 +50,7 @@ export const loginUser = async (req, res) => {
 
 export const getUserName = async (req, res) => {
   try {
-    const userName = await Users.find()
+    const userName = await Users.findOne().select("userName")
     res.json(userName);
   } catch(error) {
     res.status(500).json({message: err.message});
