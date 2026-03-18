@@ -5,7 +5,7 @@ import protect from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.get("/", getAllCharge);
-router.get("/:id", getAllChargeById);
+router.get("/:id", getChargeById);
 router.post("/", postCharge);
 router.put("/:id", updateCharge);
 router.delete("/:id", deleteCharge);
