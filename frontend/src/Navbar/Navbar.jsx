@@ -13,18 +13,20 @@ function Navbar() {
     localStorage.clear();
     navigate("/login");
   }
-const fetchUserName = async () => {
-   try {
-        const res = await fetch("https://chargingportal.onrender.com/api/auth/userName");
-        const data = await res.json();
-        setUserName(userName);
-      } catch (err) {
-        toast.error("Failed to fetch data");
-      }
-}
-  useEffect(()=> {
-    fetchUserName();
-  })
+
+useEffect(() => {
+  const fetchUserName = async () => {
+    try {
+      const res = await fetch("https://chargingportal.onrender.com/api/auth/userName");
+      const data = await res.json();
+      setUserName(data.username);
+    } catch (err) {
+      toast.error("Failed to fetch data");
+    }
+  };
+
+  fetchUserName();
+}, []);
 
   return (
     <nav>
@@ -42,7 +44,7 @@ const fetchUserName = async () => {
 
       <div className="profile">
         <div>
-        {userName}
+        {userName ? `Welcome ${userName}`: "Guest"}
       </div>
       <div>
         <button className="logoutBtn" onClick={handleLogout}>
