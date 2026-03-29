@@ -1,16 +1,13 @@
 nav {
-  height: 100%;
+  height: 100vh;
   width: 250px;
-  padding: 20px 30px;
-  background: #111;
+  padding: 20px;
+  background: linear-gradient(to bottom, #1e3a8a, #2563eb);
   color: #fff;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
-  overflow-x: hidden;
 }
-
 .nav-links {
   display: flex;
   flex-direction: column;
@@ -31,16 +28,19 @@ nav {
   cursor: pointer;
   text-align: left;
   font-size: 16px;
-  padding: 6px 0;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.linkBtn:hover {
+  background: rgba(255,255,255,0.15);
 }
 
 .logoutBtn {
-  background: red;
-  border: none;
-  padding: 6px 12px;
-  color: #fff;
-  cursor: pointer;
-  width: 100%;
+  background: #ef4444;
+  border-radius: 8px;
+  padding: 10px;
 }
 
 .profile {

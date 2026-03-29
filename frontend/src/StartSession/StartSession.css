@@ -1,3 +1,7 @@
+body {
+  background-color: #f3f4f6;
+}
+
 .form-grid {
   display: flex;
   /* horizontal layout */
@@ -5,7 +9,8 @@
   /* move to next row if needed */
   gap: 20px;
   /* horizontal and vertical space between inputs */
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  max-width: 100%;
 }
 
 .form-grid input, select {
@@ -21,19 +26,24 @@
 }
 
 .form-grid input:focus {
-  border-color: #007BFF;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   background-color: #fff;
 }
 
+.form-grid input, 
+.form-grid select {
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
 button {
-  background-color: blue;
+  background-color: #2563eb;
   color: white;
+  padding: 12px;
+  border-radius: 8px;
   border: none;
-  padding: 6px 12px;
-  color: #fff;
   cursor: pointer;
-  margin-top: 20px;
+  font-weight: bold;
+  width: 100%;
 }
 
 button:hover {
