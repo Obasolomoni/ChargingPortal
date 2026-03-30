@@ -8,28 +8,27 @@ nav {
   top: 0;
   left: 0;
 }
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
 .nav-links {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
-}
-
-.logo {
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 30px;
 }
 
 .linkBtn {
   background: none;
   border: none;
-  color: #fff;
-  cursor: pointer;
+  color: white;
   text-align: left;
-  font-size: 16px;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s;
 }
 
@@ -39,23 +38,15 @@ nav {
 
 .logoutBtn {
   background: #ef4444;
-  border-radius: 8px;
+  border: none;
   padding: 10px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  width: 100%;
 }
 
 .profile {
-  margin-top: 23rem;
-}
-
-@media (max-width: 860px) {
-  nav {
-  height: 100%;
-  padding: 20px 30px;
-  background: #111;
-  color: #fff;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  overflow-x: hidden;
-}
+  margin-top: auto;
+  padding-top: 200%;
 }

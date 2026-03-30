@@ -1,7 +1,7 @@
 /* Container */
 .charging-container {
-  margin-left: 270px;
-  padding: 30px;
+  margin-left: 245px;
+  padding: 20px;
 }
 
 /* Search input */
@@ -18,7 +18,7 @@
 /* Table wrapper for horizontal scroll */
 .table-wrapper {
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }

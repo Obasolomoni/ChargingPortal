@@ -4,7 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./Charging.css";
 
-import Navbar from "../Navbar/Navbar"
+import Navbar from "../Navbar/Navbar";
+import Loader from "../Loader/Loader";
 function Charging() {
   const [rows, setRows] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,6 +76,7 @@ function Charging() {
   return (
   
   <>
+  <Loader />
   <Navbar />
     <div className="charging-container">
       <ToastContainer position="top-right" autoClose={2000} />

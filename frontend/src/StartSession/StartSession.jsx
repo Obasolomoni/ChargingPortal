@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
+import Loader from "../Loader/Loader";
 
 import "./StartSession.css"
 function StartSession() {
@@ -11,7 +12,7 @@ function StartSession() {
     session: "Charging"
   });
 
-  
+
   // 🔥 Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +35,6 @@ function StartSession() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Device registered!"); // temporary instead of toast
         setFormData({
           userName: "",
           mobileName: "",
@@ -50,10 +50,26 @@ function StartSession() {
     }
   };
 
+  const [pins, setPins] = useState([]);
+
+  function generatePins() {
+    const newPins = [];
+
+    for (let i = 0; i < 5; i++) {
+      const pin = Math.floor(100000 + Math.random() * 900000);
+      newPins.push(pin);
+    }
+
+    setPins(newPins);
+  }
+
+  useEffect(()=> {
+    generatePins()
+  },[])
   return (
     <>
       <Navbar />
-
+      <Loader />
       <div style={{ marginLeft: "270px", padding: "20px" }}>
         <h3>Start Session</h3>
         <form onSubmit={handleSubmit} className="form-container">
@@ -89,11 +105,13 @@ function StartSession() {
             <select className="selectBar">
               <option value={formData.session}>Charging</option>
               <option value={formData.session}>Pending</option>
-              </select>
-              <select>
-
-                <option>Show More</option>
-              </select>
+            </select>
+            <select>
+              <option>Select Pins</option>
+              {pins.map((pin, i)=>(
+                <option key={i}>{pin}</option>
+              ))}
+            </select>
           </div>
 
           <button type="submit">Start Session</button>

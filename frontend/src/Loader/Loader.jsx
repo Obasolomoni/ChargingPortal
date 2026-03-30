@@ -1,11 +1,25 @@
+import { useState, useEffect } from "react";
+import "./Loader.css";
 
+export default function Loader() {
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
 
-export default function Loader(){
+    return () => clearTimeout(timer);
+  }, []);
 
-    return(<div>
-        <div>
-            <h1>LFC CHARGING PORTAL</h1>
-        </div>
-    </div>)
+  if (!loading) return null;
+
+  return (
+    <div className="loader-container">
+      <div className="loader-content">
+        <h1>LFC Charging Portal</h1>
+        <div className="spinner"></div>
+      </div>
+    </div>
+  );
 }
