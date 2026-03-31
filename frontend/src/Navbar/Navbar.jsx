@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Navbar.css";
 
-function Navbar() {
+function Navbar(props) {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +44,7 @@ useEffect(() => {
 
       <div className="profile">
         <div>
-        {userName ? `Welcome ${userName}`: "Guest"}
+        {props.userName}
       </div>
       <div>
         <button className="logoutBtn" onClick={handleLogout}>

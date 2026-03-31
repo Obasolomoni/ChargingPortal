@@ -5,11 +5,12 @@ import Loader from "../Loader/Loader";
 import "./StartSession.css"
 function StartSession() {
   const [formData, setFormData] = useState({
-    userName: "",
+    personName: "",
     mobileName: "",
     userNumber: "",
     slotName: "",
-    session: "Charging"
+    session: "Charging",
+    sessionPins: ""
   });
 
 
@@ -36,11 +37,12 @@ function StartSession() {
 
       if (res.ok) {
         setFormData({
-          userName: "",
+          personName: "",
           mobileName: "",
           userNumber: "",
           slotName: "",
-          session: "Charging"
+          session: "Charging",
+          sessionPins: ""
         });
       } else {
         alert(data.message);
@@ -75,10 +77,10 @@ function StartSession() {
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-grid">
             <input
-              name="userName"
+              name="personName"
               type="text"
               placeholder="Enter Name"
-              value={formData.userName}
+              value={formData.personName}
               onChange={handleChange}
             />
             <input
@@ -103,6 +105,7 @@ function StartSession() {
               onChange={handleChange}
             />
             <select className="selectBar">
+              <option value="select Session">Select Session</option>
               <option value={formData.session}>Charging</option>
               <option value={formData.session}>Pending</option>
             </select>

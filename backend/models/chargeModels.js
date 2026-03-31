@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const chargeSchema = new mongoose.Schema({
-  userName: { type: String, required: true },
+  personName: { type: String, required: true },
   mobileName: { type: String, required: true },
   userNumber: { type: String, required: true },
   slotName: { type: String, required: true },
@@ -13,7 +13,7 @@ const chargeSchema = new mongoose.Schema({
   dateCollected: { type: String, default: "" },
   timeCollected: { type: String, default: "" },
 
-  sessionPins: {type: Number, required: true}
+  sessionPins: {type: String, required: true}
 });
 
 export default mongoose.model("charge", chargeSchema);

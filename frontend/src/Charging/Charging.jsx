@@ -67,7 +67,7 @@ function Charging() {
   }
 
   const filteredRows = rows.filter((row) =>
-    [row.userName, row.userNumber, row.mobileName]
+    [row.personName, row.userNumber, row.mobileName]
       .join(" ")
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
@@ -114,7 +114,7 @@ function Charging() {
               filteredRows.map((rec, i) => (
                 <tr key={rec._id}>
                   <td>{i + 1}</td>
-                  <td>{rec.userName}</td>
+                  <td>{rec.personName}</td>
                   <td>{rec.mobileName}</td>
                   <td>{rec.userNumber}</td>
                   <td>{rec.slotName}</td>
