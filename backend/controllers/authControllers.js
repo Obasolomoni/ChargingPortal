@@ -50,8 +50,8 @@ export const loginUser = async (req, res) => {
 
 export const getUserName = async (req, res) => {
   try {
-    const user = await Users.findOne().select("username");
-    res.json({ username: user.username });
+    const user = await Users.findOne().select("userName");
+    res.json({ username: user.userName });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

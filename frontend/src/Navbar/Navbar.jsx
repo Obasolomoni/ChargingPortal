@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Navbar.css";
 
-function Navbar(props) {
+function Navbar() {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -14,17 +14,18 @@ function Navbar(props) {
     navigate("/login");
   }
 
-useEffect(() => {
-  const fetchUserName = async () => {
+
+ const fetchUserName = async () => {
     try {
-      const res = await fetch("https://chargingportal.onrender.com/api/auth/userName");
+      const res = await fetch("https://chargingportal.onrender.com/api/auth/user");
       const data = await res.json();
-      setUserName(data.username);
+      setUserName(data.userName);
     } catch (err) {
       toast.error("Failed to fetch data");
     }
   };
 
+useEffect(() => {
   fetchUserName();
 }, []);
 
@@ -44,7 +45,7 @@ useEffect(() => {
 
       <div className="profile">
         <div>
-        {props.userName}
+        {userName ? `Welcome ${userName}` : 'Guest' }
       </div>
       <div>
         <button className="logoutBtn" onClick={handleLogout}>

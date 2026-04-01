@@ -58,8 +58,8 @@ function StartSession() {
     const newPins = [];
 
     for (let i = 0; i < 5; i++) {
-      const pin = Math.floor(100000 + Math.random() * 900000);
-      newPins.push(pin);
+      const sessionPins = Math.floor(100000 + Math.random() * 900000);
+      newPins.push(sessionPins);
     }
 
     setPins(newPins);
@@ -111,8 +111,8 @@ function StartSession() {
             </select>
             <select>
               <option>Select Pins</option>
-              {pins.map((pin, i)=>(
-                <option key={i}>{pin}</option>
+              {pins.map((sessionPins, i)=>(
+                <option key={i}>{formData.sessionPins}</option>
               ))}
             </select>
           </div>
