@@ -55,18 +55,13 @@ function StartSession() {
   const [pins, setPins] = useState([]);
 
   function generatePins() {
-    const newPins = [];
 
-    for (let i = 0; i < 5; i++) {
-      const sessionPins = Math.floor(100000 + Math.random() * 900000);
-      newPins.push(sessionPins);
-    }
 
     setPins(newPins);
   }
 
   useEffect(()=> {
-    generatePins()
+    generatePins();
   },[])
   return (
     <>

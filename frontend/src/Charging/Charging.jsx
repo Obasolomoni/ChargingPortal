@@ -15,6 +15,13 @@ function Charging() {
     try {
       const res = await fetch("https://chargingportal.onrender.com/api/charge");
       const data = await res.json();
+
+      if (res.ok) {
+        toast.success("Successful")
+      }
+      else {
+        toast.warn("Error")
+      }
       setRows(data);
     } catch (err) {
       toast.error("Failed to fetch data");
@@ -67,99 +74,98 @@ function Charging() {
   }
 
   const filteredRows = rows.filter((row) =>
-    [row.personName, row.userNumber, row.mobileName]
+    [row.personName, row.userNumber, row.mobileName, row.sessionPins]
       .join(" ")
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
 
   return (
-  
-  <>
-  <Loader />
-  <Navbar />
-    <div className="charging-container">
-      <ToastContainer position="top-right" autoClose={2000} />
 
-      <h2>Charging Sessions</h2>
+    <>
+      <Loader />
+      <Navbar />
+      <div className="charging-container">
+        <ToastContainer position="top-right" autoClose={2000} />
 
-      <input
-        type="text"
-        placeholder="Search user, number, or mobile..."
-        className="searchInput"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+        <h2>Charging Sessions</h2>
 
-      <div className="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>User</th>
-              <th>Mobile</th>
-              <th>Number</th>
-              <th>Slot</th>
-              <th>Status</th>
-              <th>Charged Time</th>
-              <th>Charged Date</th>
-              <th>Collected Time</th>
-              <th>Collected Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+        <input
+          type="text"
+          placeholder="Search user, number, or mobile..."
+          className="searchInput"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-          <tbody>
-            {filteredRows.length ? (
-              filteredRows.map((rec, i) => (
-                <tr key={rec._id}>
-                  <td>{i + 1}</td>
-                  <td>{rec.personName}</td>
-                  <td>{rec.mobileName}</td>
-                  <td>{rec.userNumber}</td>
-                  <td>{rec.slotName}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        rec.session === "Charging"
-                          ? "badge-charging"
-                          : rec.session === "Pending"
-                          ? "badge-pending"
-                          : "badge-collected"
-                      }`}
-                    >
-                      {rec.session}
-                    </span>
-                  </td>
-                  <td>{rec.timeCharged}</td>
-                  <td>{rec.dateCharged}</td>
-                  <td>{rec.timeCollected}</td>
-                  <td>{rec.dateCollected}</td>
-                  <td>
-                    <select
-                      value={rec.session}
-                      disabled={rec.session === "Collected"}
-                      onChange={(e) =>
-                        handleSessionChange(rec._id, e.target.value)
-                      }
-                    >
-                      <option value="Charging">Charging</option>
-                      <option value="Collected">Collected</option>
-                    </select>
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Mobile</th>
+                <th>Number</th>
+                <th>Slot</th>
+                <th>Status</th>
+                <th>Charged Time</th>
+                <th>Charged Date</th>
+                <th>Collected Time</th>
+                <th>Collected Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filteredRows.length ? (
+                filteredRows.map((rec, i) => (
+                  <tr key={rec._id}>
+                    <td>{i + 1}</td>
+                    <td>{rec.personName}</td>
+                    <td>{rec.mobileName}</td>
+                    <td>{rec.userNumber}</td>
+                    <td>{rec.slotName}</td>
+                    <td>
+                      <span
+                        className={`badge ${rec.session === "Charging"
+                            ? "badge-charging"
+                            : rec.session === "Pending"
+                              ? "badge-pending"
+                              : "badge-collected"
+                          }`}
+                      >
+                        {rec.session}
+                      </span>
+                    </td>
+                    <td>{rec.timeCharged}</td>
+                    <td>{rec.dateCharged}</td>
+                    <td>{rec.timeCollected}</td>
+                    <td>{rec.dateCollected}</td>
+                    <td>
+                      <select
+                        value={rec.session}
+                        disabled={rec.session === "Collected"}
+                        onChange={(e) =>
+                          handleSessionChange(rec._id, e.target.value)
+                        }
+                      >
+                        <option value="Charging">Charging</option>
+                        <option value="Collected">Collected</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="11" className="emptyRow">
+                    No sessions found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="11" className="emptyRow">
-                  No sessions found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </>
   );
 }

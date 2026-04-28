@@ -46,6 +46,9 @@ export const postCharge = async (req, res) => {
     });
 
     await newCharge.save();
+
+
+    
     res.status(201).json({ message: "Session created", session: newCharge });
   } catch (err) {
     res.status(500).json({ message: err.message });
