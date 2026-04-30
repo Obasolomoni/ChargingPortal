@@ -51,18 +51,6 @@ function StartSession() {
       alert("Server error");
     }
   };
-
-  const [pins, setPins] = useState([]);
-
-  function generatePins() {
-
-
-    setPins(newPins);
-  }
-
-  useEffect(()=> {
-    generatePins();
-  },[])
   return (
     <>
       <Navbar />
@@ -104,12 +92,14 @@ function StartSession() {
               <option value={formData.session}>Charging</option>
               <option value={formData.session}>Pending</option>
             </select>
-            <select>
-              <option>Select Pins</option>
-              {pins.map((sessionPins, i)=>(
-                <option key={i}>{formData.sessionPins}</option>
-              ))}
-            </select>
+
+            <input
+              name="sessionPins"
+              type="text"
+              placeholder="Enter sessionPins"
+              value={formData.sessionPins}
+              onChange={handleChange}
+            />
           </div>
 
           <button type="submit">Start Session</button>

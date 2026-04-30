@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+import './RegisteredUsers.css'
 export default function RegisteredUsers() {
   const [registered, setRegistered] = useState([]);
   const [modalSession, setModalSession] = useState(false);
@@ -82,17 +85,21 @@ export default function RegisteredUsers() {
 
   return (
     <>
-      <ToastContainer />
+    <Navbar/>
+    <div className='registered-container'>
+       <ToastContainer />
       <h1>All Registered Users</h1>
 
       <input
         type="text"
         placeholder="Search user..."
         value={searchTerm}
+        className='searchInput'
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <table>
+      <div className='table-wrapper'>
+        <table>
         <thead>
           <tr>
             <th>S/N</th>
@@ -125,6 +132,10 @@ export default function RegisteredUsers() {
           )}
         </tbody>
       </table>
+      </div>
+      
+    </div>
+     
 
       {modalSession && (
         <>

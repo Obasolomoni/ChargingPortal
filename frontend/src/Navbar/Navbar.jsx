@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 import "./Navbar.css";
 
@@ -31,6 +34,7 @@ useEffect(() => {
 
   return (
     <nav>
+      <ToastContainer/>
       <div className="logo">LFC Charging Portal</div>
 
       <div className="nav-links">
@@ -40,7 +44,9 @@ useEffect(() => {
         <button className="linkBtn" onClick={() => navigate("/create")}>
           Start Session
         </button>
-        
+         <button className="linkBtn" onClick={() => navigate("/registeredUser")}>
+          Registered Session
+        </button>
       </div>
 
       <div className="profile">

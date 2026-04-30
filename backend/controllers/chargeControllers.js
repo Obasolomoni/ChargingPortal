@@ -1,4 +1,5 @@
 import charge from "../models/chargeModels.js";
+import {registerUser} from "./authControllers.js"
 
 // Format time in Africa/Lagos
 const nowLagos = () => {
@@ -39,22 +40,48 @@ export const postCharge = async (req, res) => {
   try {
     const { date, time } = nowLagos();
 
+    // 🔥 1. Define all pins
+    const ALL_PINS = ["Pin 1", "Pin 2", "Pin 3", "Pin 4", "pin 5", "pin 6"];
+
+    // 🔥 2. Get active sessions
+    const activeSessions = await charge.find({ status: "active" });
+
+    // 🔥 3. Extract used pins
+    const usedPins = activeSessions.map(s => s.sessionPins);
+
+    // 🔥 4. Find available pins
+    const availablePins = ALL_PINS.filter(pin => !usedPins.includes(pin));
+
+    // 🚨 5. If no pin available
+    if (availablePins.length === 0) {
+      return res.status(400).json({ message: "No available pins" });
+    }
+
+    // 🔥 6. Assign first free pin
+    const assignedPin = availablePins[0];
+
+    // 🔥 7. Create new session
     const newCharge = new charge({
       ...req.body,
+      sessionPins: assignedPin, // ✅ backend controls this now
+      status: "active",
+
       dateCharged: req.body.session === "Charging" ? date : "",
       timeCharged: req.body.session === "Charging" ? time : "",
     });
 
     await newCharge.save();
 
+    res.status(201).json({
+      message: "Session created",
+      session: newCharge,
+      assignedPin
+    });
 
-    
-    res.status(201).json({ message: "Session created", session: newCharge });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
 // Update
 export const updateCharge = async (req, res) => {
   try {
