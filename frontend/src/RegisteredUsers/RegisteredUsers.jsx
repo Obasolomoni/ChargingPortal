@@ -61,6 +61,16 @@ export default function RegisteredUsers() {
     }
   };
 
+  const fetchUsername = async () => {
+    try {
+      const res = await fetch("https://chargingportal.onrender.com/api/auth/register");
+      const data = await res.json();
+      setRegistered(data);
+    } catch (err) {
+      toast.error("Failed to fetch data");
+    }
+  };
+
   // fetch users
   const fetchRegistered = async () => {
     try {
@@ -74,6 +84,7 @@ export default function RegisteredUsers() {
 
   useEffect(() => {
     fetchRegistered();
+    fetchUsername();
   }, []);
 
   const registeredRows = registered.filter((r) =>
@@ -103,7 +114,8 @@ export default function RegisteredUsers() {
             <thead>
               <tr>
                 <th>S/N</th>
-                <th>Name</th>
+                <th>Registrar Name</th>
+                <th>Persons Name</th>
                 <th>Mobile Name</th>
                 <th>Number</th>
                 <th>Session</th>
@@ -116,6 +128,7 @@ export default function RegisteredUsers() {
                 registeredRows.map((reg, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
+                    <td>{reg.userName}</td>
                     <td>{reg.personName}</td>
                     <td>{reg.mobileName}</td>
                     <td>{reg.userNumber}</td>
@@ -145,11 +158,11 @@ export default function RegisteredUsers() {
             <h3>Start Session</h3>
 
             <form onSubmit={handleSubmit} className="form-container">
-              <input name="personName" value={formData.personName} onChange={handleChange} placeholder="Name" />
-              <input name="userNumber" value={formData.userNumber} onChange={handleChange} placeholder="Phone" />
-              <input name="mobileName" value={formData.mobileName} onChange={handleChange} placeholder="Device" />
-              <input name="slotName" value={formData.slotName} onChange={handleChange} placeholder="Slot" />
-              <input name="sessionPins" value={formData.sessionPins} onChange={handleChange} placeholder="Pins" />
+              <input name="personName" value={displayData.personName} onChange={handleChange} placeholder="Name" />
+              <input name="userNumber" value={displayData.userNumber} onChange={handleChange} placeholder="Phone" />
+              <input name="mobileName" value={displayData.mobileName} onChange={handleChange} placeholder="Device" />
+              <input name="slotName" value={displayData.slotName} onChange={handleChange} placeholder="Slot" />
+              <input name="sessionPins" value={displayData.sessionPins} onChange={handleChange} placeholder="Pins" />
 
               <div className="form-actions">
                 <button type="submit" className="btn-primary">Start Session</button>

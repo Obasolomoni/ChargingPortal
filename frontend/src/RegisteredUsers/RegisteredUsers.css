@@ -160,7 +160,7 @@ select:focus {
 
 /* 🔥 Primary button */
 .btn-primary {
-  background: #4CAF50;
+  background:  #007BFF;
   color: white;
   border: none;
   padding: 10px;
@@ -172,7 +172,7 @@ select:focus {
 }
 
 .btn-primary:hover {
-  background: #45a049;
+  background: #3006eb;
 }
 
 /* 🔥 Secondary button */

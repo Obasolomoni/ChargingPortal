@@ -1,5 +1,5 @@
 import charge from "../models/chargeModels.js";
-import {registerUser} from "./authControllers.js"
+
 
 // Format time in Africa/Lagos
 const nowLagos = () => {
@@ -12,6 +12,16 @@ const nowLagos = () => {
     time: new Date().toLocaleTimeString("en-NG", options),
     date: new Date().toLocaleDateString("en-NG", { timeZone: "Africa/Lagos" }),
   };
+};
+
+// Get userName of registrar
+export const getUserName = async (req, res) => {
+  try {
+    const user = await Users.findOne().select("userName");
+    res.json({ username: req.user.userName });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 // Get all sessions
@@ -76,6 +86,7 @@ export const postCharge = async (req, res) => {
     res.status(201).json({
       message: "Session created",
       session: newCharge,
+      registrar: req.user.userName,
       assignedPin
     });
 
