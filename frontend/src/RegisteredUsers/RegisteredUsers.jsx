@@ -17,7 +17,8 @@ export default function RegisteredUsers() {
     userNumber: "",
     slotName: "",
     session: "Charging",
-    sessionPins: ""
+    sessionPins: "",
+    registrar: ""
   });
 
   // handle input
@@ -58,16 +59,6 @@ export default function RegisteredUsers() {
       }
     } catch (err) {
       toast.error("Server error");
-    }
-  };
-
-  const fetchUsername = async () => {
-    try {
-      const res = await fetch("https://chargingportal.onrender.com/api/auth/register");
-      const data = await res.json();
-      setRegistered(data);
-    } catch (err) {
-      toast.error("Failed to fetch data");
     }
   };
 
@@ -128,7 +119,7 @@ export default function RegisteredUsers() {
                 registeredRows.map((reg, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td>{reg.userName}</td>
+                    <td>{reg.registrar}</td>
                     <td>{reg.personName}</td>
                     <td>{reg.mobileName}</td>
                     <td>{reg.userNumber}</td>
@@ -158,7 +149,6 @@ export default function RegisteredUsers() {
             <h3>Start Session</h3>
 
             <form onSubmit={handleSubmit} className="form-container">
-              <input name="personName" value={displayData.registrar} onChange={handleChange} placeholder="Registrar Name" />
               <input name="personName" value={displayData.personName} onChange={handleChange} placeholder="Owners Name" />
               <input name="userNumber" value={displayData.userNumber} onChange={handleChange} placeholder="Phone Number" />
               <input name="mobileName" value={displayData.mobileName} onChange={handleChange} placeholder="Device Name" />
