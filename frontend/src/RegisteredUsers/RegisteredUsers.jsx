@@ -75,7 +75,6 @@ export default function RegisteredUsers() {
 
   useEffect(() => {
     fetchRegistered();
-    fetchUsername();
   }, []);
 
   const registeredRows = registered.filter((r) =>
