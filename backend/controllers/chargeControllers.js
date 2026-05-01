@@ -40,30 +40,31 @@ export const postCharge = async (req, res) => {
   try {
     const { date, time } = nowLagos();
 
-    // 🔥 1. Define all pins
-    const ALL_PINS = ["Pin 1", "Pin 2", "Pin 3", "Pin 4", "pin 5", "pin 6"];
+    const ALL_PINS = ["Pin 1", "Pin 2", "Pin 3", "Pin 4", "Pin 5", "Pin 6"];
 
-    // 🔥 2. Get active sessions
+    // Get active sessions
     const activeSessions = await charge.find({ status: "active" });
 
-    // 🔥 3. Extract used pins
-    const usedPins = activeSessions.map(s => s.sessionPins);
+    // Extract used pins safely
+    const usedPins = activeSessions
+      .map(s => s.sessionPins)
+      .filter(Boolean);
 
-    // 🔥 4. Find available pins
+    // Get available pins
     const availablePins = ALL_PINS.filter(pin => !usedPins.includes(pin));
 
-    // 🚨 5. If no pin available
+    // If no pins left
     if (availablePins.length === 0) {
       return res.status(400).json({ message: "No available pins" });
     }
 
-    // 🔥 6. Assign first free pin
+    // ✅ Assign ONE pin
     const assignedPin = availablePins[0];
 
-    // 🔥 7. Create new session
+    // Create session
     const newCharge = new charge({
       ...req.body,
-      sessionPins: assignedPin, // ✅ backend controls this now
+      sessionPins: assignedPin,
       status: "active",
 
       dateCharged: req.body.session === "Charging" ? date : "",
@@ -79,6 +80,7 @@ export const postCharge = async (req, res) => {
     });
 
   } catch (err) {
+    console.error("🔥 ERROR:", err); // IMPORTANT
     res.status(500).json({ message: err.message });
   }
 };

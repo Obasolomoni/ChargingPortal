@@ -11,7 +11,7 @@ export default function RegisteredUsers() {
   const [submitted, setSubmitted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [formData, setFormData] = useState({
+  const [displayData, setDisplayData] = useState({
     personName: "",
     mobileName: "",
     userNumber: "",
@@ -23,7 +23,7 @@ export default function RegisteredUsers() {
   // handle input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setDisplayData(prev => ({
       ...prev,
       [name]: value
     }));
@@ -37,14 +37,14 @@ export default function RegisteredUsers() {
       const res = await fetch("https://chargingportal.onrender.com/api/charge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(displayData),
       });
 
       const data = await res.json();
 
       if (res.ok) {
         toast.success("Session created!");
-        setFormData({
+        setDisplayData({
           personName: "",
           mobileName: "",
           userNumber: "",
@@ -85,70 +85,81 @@ export default function RegisteredUsers() {
 
   return (
     <>
-    <Navbar/>
-    <div className='registered-container'>
-       <ToastContainer />
-      <h1>All Registered Users</h1>
+      <Navbar />
+      <div className='registered-container'>
+        <ToastContainer />
+        <h1>All Registered Users</h1>
 
-      <input
-        type="text"
-        placeholder="Search user..."
-        value={searchTerm}
-        className='searchInput'
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="Search user..."
+          value={searchTerm}
+          className='searchInput'
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-      <div className='table-wrapper'>
-        <table>
-        <thead>
-          <tr>
-            <th>S/N</th>
-            <th>Name</th>
-            <th>Number</th>
-            <th>Session</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {registeredRows.length ? (
-            registeredRows.map((reg, i) => (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>{reg.personName}</td>
-                <td>{reg.userNumber}</td>
-                <td>{reg.session}</td>
-                <td>
-                  <button onClick={() => setModalSession(true)}>
-                    Create Session
-                  </button>
-                </td>
+        <div className='table-wrapper'>
+          <table>
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>Name</th>
+                <th>Mobile Name</th>
+                <th>Number</th>
+                <th>Session</th>
+                <th>Action</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">No users found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+
+            <tbody>
+              {registeredRows.length ? (
+                registeredRows.map((reg, i) => (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{reg.personName}</td>
+                    <td>{reg.mobileName}</td>
+                    <td>{reg.userNumber}</td>
+                    <td>{reg.session}</td>
+                    <td>
+                      <button onClick={() => setModalSession(true)}>
+                        Create Session
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No users found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
       </div>
-      
-    </div>
-     
+
 
       {modalSession && (
-        <>
-          <h3>Start Session</h3>
-          <form onSubmit={handleSubmit}>
-            <input name="personName" value={formData.personName} onChange={handleChange} placeholder="Name" />
-            <input name="userNumber" value={formData.userNumber} onChange={handleChange} placeholder="Phone" />
-            <input name="mobileName" value={formData.mobileName} onChange={handleChange} placeholder="Device" />
-            <input name="slotName" value={formData.slotName} onChange={handleChange} placeholder="Slot" />
+        <div className="modal-overlay">
+          <div className="reRegister">
+            <h3>Start Session</h3>
 
-            <button type="submit">Start Session</button>
-          </form>
-        </>
+            <form onSubmit={handleSubmit} className="form-container">
+              <input name="personName" value={formData.personName} onChange={handleChange} placeholder="Name" />
+              <input name="userNumber" value={formData.userNumber} onChange={handleChange} placeholder="Phone" />
+              <input name="mobileName" value={formData.mobileName} onChange={handleChange} placeholder="Device" />
+              <input name="slotName" value={formData.slotName} onChange={handleChange} placeholder="Slot" />
+              <input name="sessionPins" value={formData.sessionPins} onChange={handleChange} placeholder="Pins" />
+
+              <div className="form-actions">
+                <button type="submit" className="btn-primary">Start Session</button>
+                <button type="button" className="btn-secondary" onClick={() => setModalSession(false)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </>
   );
