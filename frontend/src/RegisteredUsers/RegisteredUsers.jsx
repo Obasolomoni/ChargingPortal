@@ -158,10 +158,11 @@ export default function RegisteredUsers() {
             <h3>Start Session</h3>
 
             <form onSubmit={handleSubmit} className="form-container">
-              <input name="personName" value={displayData.personName} onChange={handleChange} placeholder="Name" />
-              <input name="userNumber" value={displayData.userNumber} onChange={handleChange} placeholder="Phone" />
-              <input name="mobileName" value={displayData.mobileName} onChange={handleChange} placeholder="Device" />
-              <input name="slotName" value={displayData.slotName} onChange={handleChange} placeholder="Slot" />
+              <input name="personName" value={displayData.registrar} onChange={handleChange} placeholder="Registrar Name" />
+              <input name="personName" value={displayData.personName} onChange={handleChange} placeholder="Owners Name" />
+              <input name="userNumber" value={displayData.userNumber} onChange={handleChange} placeholder="Phone Number" />
+              <input name="mobileName" value={displayData.mobileName} onChange={handleChange} placeholder="Device Name" />
+              <input name="slotName" value={displayData.slotName} onChange={handleChange} placeholder="Slot Number" />
               <input name="sessionPins" value={displayData.sessionPins} onChange={handleChange} placeholder="Pins" />
 
               <div className="form-actions">
