@@ -40,7 +40,7 @@ export const postCharge = async (req, res) => {
   try {
     const { date, time } = nowLagos();
 
-    const ALL_PINS = ["Pin 1", "Pin 2", "Pin 3", "Pin 4", "Pin 5", "Pin 6"];
+    const ALL_PINS = ["Pin 1"];
 
     // Get active sessions
     const activeSessions = await charge.find({ status: "active" });
