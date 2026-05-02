@@ -75,6 +75,7 @@ export const postCharge = async (req, res) => {
     const newCharge = new charge({
       ...req.body,
       sessionPins: assignedPin,
+      registrar: req.user,
       status: "active",
 
       dateCharged: req.body.session === "Charging" ? date : "",
