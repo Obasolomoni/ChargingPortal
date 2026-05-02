@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", getAllCharge);
 router.get("/username", protect, getUserName);
 router.get("/:id", getChargeById);
-router.post("/", postCharge);
+router.post("/", protect, postCharge);
 router.put("/:id", updateCharge);
 router.delete("/:id", deleteCharge);
 
