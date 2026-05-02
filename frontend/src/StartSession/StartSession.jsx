@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Loader from "../Loader/Loader";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import "./StartSession.css"
+import "./StartSession.css";
+
 function StartSession() {
   const [formData, setFormData] = useState({
     personName: "",
     mobileName: "",
     userNumber: "",
     slotName: "",
-    session: "Charging",
-    sessionPins: ""
+    session: "Charging"
   });
-
 
   // 🔥 Handle input changes
   const handleChange = (e) => {
@@ -23,42 +24,54 @@ function StartSession() {
     }));
   };
 
-  // 🔥 Register new session
+  // 🔥 Submit session
   const handleSubmit = async (e) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault();
+
     try {
+      const token = localStorage.getItem("token");
+
       const res = await fetch("https://chargingportal.onrender.com/api/charge", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}` // ✅ FIXED
+        },
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
       if (res.ok) {
+        toast.success(`Session created! Pin: ${data.assignedPin}`);
+
         setFormData({
           personName: "",
           mobileName: "",
           userNumber: "",
           slotName: "",
-          session: "Charging",
-          sessionPins: ""
+          session: "Charging"
         });
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (err) {
-      alert("Server error");
+      toast.error("Server error");
     }
   };
+
   return (
     <>
       <Navbar />
       <Loader />
+      <ToastContainer />
+
       <div style={{ marginLeft: "270px", padding: "20px" }}>
         <h3>Start Session</h3>
+
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-grid">
+
             <input
               name="personName"
               type="text"
@@ -66,6 +79,7 @@ function StartSession() {
               value={formData.personName}
               onChange={handleChange}
             />
+
             <input
               name="userNumber"
               type="text"
@@ -73,6 +87,7 @@ function StartSession() {
               value={formData.userNumber}
               onChange={handleChange}
             />
+
             <input
               name="mobileName"
               type="text"
@@ -80,6 +95,7 @@ function StartSession() {
               value={formData.mobileName}
               onChange={handleChange}
             />
+
             <input
               name="slotName"
               type="text"
@@ -87,19 +103,18 @@ function StartSession() {
               value={formData.slotName}
               onChange={handleChange}
             />
-            <select className="selectBar">
-              <option value="select Session">Select Session</option>
-              <option value={formData.session}>Charging</option>
-              <option value={formData.session}>Pending</option>
+
+            {/* ✅ FIXED select */}
+            <select
+              name="session"
+              value={formData.session}
+              onChange={handleChange}
+              className="selectBar"
+            >
+              <option value="Charging">Charging</option>
+              <option value="Pending">Pending</option>
             </select>
 
-            <input
-              name="sessionPins"
-              type="text"
-              placeholder="Enter sessionPins"
-              value={formData.sessionPins}
-              onChange={handleChange}
-            />
           </div>
 
           <button type="submit">Start Session</button>

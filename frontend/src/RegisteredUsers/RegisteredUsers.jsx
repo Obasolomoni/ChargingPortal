@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import './RegisteredUsers.css';
 
-
-import './RegisteredUsers.css'
 export default function RegisteredUsers() {
   const [registered, setRegistered] = useState([]);
   const [modalSession, setModalSession] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [displayData, setDisplayData] = useState({
@@ -16,9 +14,7 @@ export default function RegisteredUsers() {
     mobileName: "",
     userNumber: "",
     slotName: "",
-    session: "Charging",
-    sessionPins: "",
-    registrar: ""
+    session: "Charging"
   });
 
   // handle input
@@ -35,25 +31,32 @@ export default function RegisteredUsers() {
     e.preventDefault();
 
     try {
+      const token = localStorage.getItem("token");
+
       const res = await fetch("https://chargingportal.onrender.com/api/charge", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}` // ✅ FIXED
+        },
         body: JSON.stringify(displayData),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Session created!");
+        toast.success(`Session created! Pin: ${data.assignedPin}`);
+
         setDisplayData({
           personName: "",
           mobileName: "",
           userNumber: "",
           slotName: "",
-          session: "Charging",
-          sessionPins: ""
+          session: "Charging"
         });
+
         setModalSession(false);
+        fetchRegistered(); // ✅ refresh table
       } else {
         toast.error(data.message);
       }
@@ -62,7 +65,7 @@ export default function RegisteredUsers() {
     }
   };
 
-  // fetch users
+  // fetch users/sessions
   const fetchRegistered = async () => {
     try {
       const res = await fetch("https://chargingportal.onrender.com/api/charge");
@@ -104,9 +107,9 @@ export default function RegisteredUsers() {
             <thead>
               <tr>
                 <th>S/N</th>
-                <th>Registrar Name</th>
-                <th>Persons Name</th>
-                <th>Mobile Name</th>
+                <th>Registrar</th>
+                <th>Person</th>
+                <th>Mobile</th>
                 <th>Number</th>
                 <th>Session</th>
                 <th>Action</th>
@@ -124,7 +127,19 @@ export default function RegisteredUsers() {
                     <td>{reg.userNumber}</td>
                     <td>{reg.session}</td>
                     <td>
-                      <button onClick={() => setModalSession(true)}>
+                      <button
+                        onClick={() => {
+                          // ✅ auto-fill form
+                          setDisplayData({
+                            personName: reg.personName,
+                            mobileName: reg.mobileName,
+                            userNumber: reg.userNumber,
+                            slotName: "",
+                            session: "Charging"
+                          });
+                          setModalSession(true);
+                        }}
+                      >
                         Create Session
                       </button>
                     </td>
@@ -132,31 +147,55 @@ export default function RegisteredUsers() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4">No users found</td>
+                  <td colSpan="7">No users found</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-
       </div>
 
-
+      {/* Modal */}
       {modalSession && (
         <div className="modal-overlay">
           <div className="reRegister">
             <h3>Start Session</h3>
 
             <form onSubmit={handleSubmit} className="form-container">
-              <input name="personName" value={displayData.personName} onChange={handleChange} placeholder="Owners Name" />
-              <input name="userNumber" value={displayData.userNumber} onChange={handleChange} placeholder="Phone Number" />
-              <input name="mobileName" value={displayData.mobileName} onChange={handleChange} placeholder="Device Name" />
-              <input name="slotName" value={displayData.slotName} onChange={handleChange} placeholder="Slot Number" />
-              <input name="sessionPins" value={displayData.sessionPins} onChange={handleChange} placeholder="Pins" />
+              <input
+                name="personName"
+                value={displayData.personName}
+                onChange={handleChange}
+                placeholder="Owner's Name"
+              />
+              <input
+                name="userNumber"
+                value={displayData.userNumber}
+                onChange={handleChange}
+                placeholder="Phone Number"
+              />
+              <input
+                name="mobileName"
+                value={displayData.mobileName}
+                onChange={handleChange}
+                placeholder="Device Name"
+              />
+              <input
+                name="slotName"
+                value={displayData.slotName}
+                onChange={handleChange}
+                placeholder="Slot Number"
+              />
 
               <div className="form-actions">
-                <button type="submit" className="btn-primary">Start Session</button>
-                <button type="button" className="btn-secondary" onClick={() => setModalSession(false)}>
+                <button type="submit" className="btn-primary">
+                  Start Session
+                </button>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setModalSession(false)}
+                >
                   Cancel
                 </button>
               </div>
