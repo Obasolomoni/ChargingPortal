@@ -22,7 +22,7 @@ export const registerUser = async (req, res) => {
     });
 
     // Generate a Token
-    const token = jwt.sign({ id: newUser._id, userName: user.userName }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: newUser._id, userName: newUser.userName }, process.env.JWT_SECRET, { expiresIn: "1d" });
     res.status(201).json({ message: "Registered successfully", token });
   } catch (err) {
     // Catch errors

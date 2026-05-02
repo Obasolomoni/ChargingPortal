@@ -21,7 +21,7 @@ const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // 3. Find user attached to token
-    req.user = await Users.findById(decoded.id).select("-password");
+    req.user = await Users.findById(decoded.id).select("-userpassword");
 
     next(); // Allow to continue
   } catch (error) {
