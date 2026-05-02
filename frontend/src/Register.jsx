@@ -19,6 +19,8 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.setItem("token");
+      console.log(token)
       const res = await fetch("https://chargingportal.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
