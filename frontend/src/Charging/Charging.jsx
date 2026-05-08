@@ -28,8 +28,26 @@ function Charging() {
     }
   };
 
+  const fetchUserName = async () => {
+    const res = await fetch("https://chargingportal.onrender.com/api/user");
+    const data = await res.jon();
+
+    try {
+      if (res.ok) {
+        toast.success("Successful")
+      }
+      else {
+        toast.warn("Error")
+      }
+      setRows(data)
+    } catch (err) {
+      toast.error("Failed to fetch data")
+    }
+  }
+
   useEffect(() => {
     fetchData();
+    fetchUserName();
   }, []);
 
   // Update session
@@ -103,6 +121,7 @@ function Charging() {
             <thead>
               <tr>
                 <th>#</th>
+                <th>Registrar Name</th>
                 <th>User</th>
                 <th>Mobile</th>
                 <th>Number</th>
@@ -121,6 +140,7 @@ function Charging() {
                 filteredRows.map((rec, i) => (
                   <tr key={rec._id}>
                     <td>{i + 1}</td>
+                    <td>{rec.userName}</td>
                     <td>{rec.personName}</td>
                     <td>{rec.mobileName}</td>
                     <td>{rec.userNumber}</td>
@@ -128,10 +148,10 @@ function Charging() {
                     <td>
                       <span
                         className={`badge ${rec.session === "Charging"
-                            ? "badge-charging"
-                            : rec.session === "Pending"
-                              ? "badge-pending"
-                              : "badge-collected"
+                          ? "badge-charging"
+                          : rec.session === "Pending"
+                            ? "badge-pending"
+                            : "badge-collected"
                           }`}
                       >
                         {rec.session}
