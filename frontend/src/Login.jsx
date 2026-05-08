@@ -5,7 +5,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ userName: "", userPassword: "" });
+
+  const [form, setForm] = useState({
+    userName: "",
+    userPassword: ""
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,10 +17,13 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const res = await fetch("https://chargingportal.onrender.com/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(form),
       });
 
@@ -24,27 +31,35 @@ export default function Login() {
 
       if (res.ok) {
         toast.success("✅ Login successful!");
+
+        // 🔥 FIXED
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userName", data.userName);
+
         setTimeout(() => navigate("/charging"), 1000);
       } else {
         toast.warn(`⚠️ ${data.message}`);
       }
+
     } catch (err) {
+      console.error(err);
       toast.error("❌ Server error, please try again.");
     }
   };
 
   const handleRegister = () => {
-    // clear token just in case
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
     navigate("/");
   };
 
   return (
     <div className="container mt-5" style={{ maxWidth: 400 }}>
       <ToastContainer />
+
       <form onSubmit={handleSubmit} className="card p-4 shadow">
         <h4 className="mb-3 text-center text-primary">Login</h4>
+
         <input
           name="userName"
           className="form-control mb-3"
@@ -52,6 +67,7 @@ export default function Login() {
           value={form.userName}
           onChange={handleChange}
         />
+
         <input
           name="userPassword"
           type="password"
@@ -60,9 +76,11 @@ export default function Login() {
           value={form.userPassword}
           onChange={handleChange}
         />
+
         <button type="submit" className="btn btn-primary w-100 mb-2">
           Login
         </button>
+
         <button
           type="button"
           className="btn btn-warning w-100"

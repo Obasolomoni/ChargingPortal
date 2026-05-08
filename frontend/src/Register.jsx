@@ -5,41 +5,53 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ userName: "", userEmail: "", userPassword: "" });
+
+  const [form, setForm] = useState({
+    userName: "",
+    userEmail: "",
+    userPassword: ""
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    // 🧹 clear any old tokens to prevent auto-login
+    // clear old session
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const token = localStorage.setItem("token");
-      console.log(token)
       const res = await fetch("https://chargingportal.onrender.com/api/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
 
-      console.log("Response:", data)
+      console.log("Response:", data);
 
       if (res.ok) {
         toast.success("🎉 Registration successful!");
-        // Optional: auto-login after registration
+
+        // ✅ SAVE TOKEN + USERNAME
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userName", data.userName);
+
         setTimeout(() => navigate("/charging"), 1500);
       } else {
         toast.warn(`⚠️ ${data.message}`);
       }
+
     } catch (err) {
+      console.error(err);
       toast.error("❌ Server error, please try again.");
     }
   };
@@ -51,8 +63,10 @@ export default function Register() {
   return (
     <div className="container mt-5" style={{ maxWidth: 400 }}>
       <ToastContainer />
+
       <form onSubmit={handleSubmit} className="card p-4 shadow">
         <h4 className="mb-3 text-center text-success">Register</h4>
+
         <input
           name="userName"
           className="form-control mb-3"
@@ -60,6 +74,7 @@ export default function Register() {
           value={form.userName}
           onChange={handleChange}
         />
+
         <input
           name="userEmail"
           type="email"
@@ -68,6 +83,7 @@ export default function Register() {
           value={form.userEmail}
           onChange={handleChange}
         />
+
         <input
           name="userPassword"
           type="password"
@@ -76,9 +92,11 @@ export default function Register() {
           value={form.userPassword}
           onChange={handleChange}
         />
+
         <button type="submit" className="btn btn-success w-100 mb-2">
           Register
         </button>
+
         <button
           type="button"
           className="btn btn-primary w-100"
