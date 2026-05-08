@@ -29,6 +29,8 @@ export default function Register() {
 
       const data = await res.json();
 
+      console.log("Response:", data)
+
       if (res.ok) {
         toast.success("🎉 Registration successful!");
         // Optional: auto-login after registration
