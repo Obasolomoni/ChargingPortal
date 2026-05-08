@@ -29,7 +29,7 @@ function Charging() {
   };
 
   const fetchUserName = async () => {
-    const res = await fetch("https://chargingportal.onrender.com/api/user");
+    const res = await fetch("https://chargingportal.onrender.com/api/auth/user");
     const data = await res.jon();
 
     try {
