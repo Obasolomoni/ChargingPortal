@@ -58,6 +58,10 @@ export const loginUser = async (req, res) => {
 // GET CURRENT USERNAME
 export const getUserName = async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
     res.status(200).json({
       username: req.user.userName
     });
