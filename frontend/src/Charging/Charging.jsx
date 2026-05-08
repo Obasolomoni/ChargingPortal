@@ -65,6 +65,13 @@ function Charging() {
         body.timeCollected = "";
       }
 
+      if (newStatus === "Pending") {
+        body.dateCharged = "";
+        body.timeCharged = "";
+        body.dateCollected = "";
+        body.timeCollected = "";
+      }
+
       if (newStatus === "Collected") {
         body.dateCollected = nowDate;
         body.timeCollected = nowTime;
@@ -169,6 +176,7 @@ function Charging() {
                           handleSessionChange(rec._id, e.target.value)
                         }
                       >
+                        <option value="Pending">Pending</option>
                         <option value="Charging">Charging</option>
                         <option value="Collected">Collected</option>
                       </select>
