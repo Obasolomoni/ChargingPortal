@@ -1,5 +1,6 @@
 import charge from "../models/chargeModels.js";
 
+// 🔥 Time helper
 const nowLagos = () => {
   return {
     time: new Date().toLocaleTimeString("en-NG", { timeZone: "Africa/Lagos" }),
@@ -7,6 +8,32 @@ const nowLagos = () => {
   };
 };
 
+// ✅ GET ALL SESSIONS
+export const getAllCharge = async (req, res) => {
+  try {
+    const charges = await charge.find().sort({ _id: -1 });
+    res.json(charges);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// ✅ GET SINGLE SESSION
+export const getChargeById = async (req, res) => {
+  try {
+    const single = await charge.findById(req.params.id);
+
+    if (!single) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    res.json(single);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// ✅ CREATE SESSION (MAIN LOGIC)
 export const postCharge = async (req, res) => {
   try {
     const { date, time } = nowLagos();
@@ -28,7 +55,7 @@ export const postCharge = async (req, res) => {
     const newCharge = new charge({
       ...req.body,
       sessionPins: assignedPin,
-      registrar: req.user.userName, // ✅ FIXED
+      registrar: req.user.userName, // 🔥 from JWT
       status: "active",
 
       dateCharged: req.body.session === "Charging" ? date : "",
@@ -44,7 +71,59 @@ export const postCharge = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("ERROR:", err);
+    console.error("POST ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// ✅ UPDATE SESSION (e.g. Charging → Collected)
+export const updateCharge = async (req, res) => {
+  try {
+    const { session } = req.body;
+    const { date, time } = nowLagos();
+
+    const updateData = { session };
+
+    if (session === "Charging") {
+      updateData.dateCharged = date;
+      updateData.timeCharged = time;
+      updateData.dateCollected = "";
+      updateData.timeCollected = "";
+    }
+
+    if (session === "Collected") {
+      updateData.dateCollected = date;
+      updateData.timeCollected = time;
+
+      // 🔥 FREE THE PIN
+      updateData.status = "inactive";
+    }
+
+    const updated = await charge.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    res.json({
+      message: "Session updated",
+      session: updated
+    });
+
+  } catch (err) {
+    console.error("UPDATE ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// ✅ DELETE SESSION
+export const deleteCharge = async (req, res) => {
+  try {
+    await charge.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "Session deleted" });
+  } catch (err) {
+    console.error("DELETE ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 };
