@@ -58,7 +58,9 @@ export const loginUser = async (req, res) => {
 // GET CURRENT USERNAME
 export const getUserName = async (req, res) => {
   try {
-    res.json({ username: req.user.userName });
+    res.status(200).json({
+      username: req.user.userName
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

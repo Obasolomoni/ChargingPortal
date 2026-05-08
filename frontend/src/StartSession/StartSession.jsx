@@ -12,7 +12,8 @@ function StartSession() {
     mobileName: "",
     userNumber: "",
     slotName: "",
-    session: "Charging"
+    session: "Charging",
+    Registrar: ""
   });
 
   // 🔥 Handle input changes
