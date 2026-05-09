@@ -167,3 +167,23 @@
 
 //   // ✅ Auto-load on page open
 //   window.onload = loadCharge;
+
+const api = "https://chargingportal.onrender.com/api/auth/users"
+
+async function fetchUserNames(){
+    try{        
+        const res = await fetch(api)
+        const data = await res.json()
+        const output = document.getElementById("output")
+        output.textContent = ""
+
+        data.forEach((element, index) => {
+            const userName = document.createElement("span");
+
+            userName.textContent = `
+            <span>${element.userName}</span>`
+        });
+    } catch(error){
+        console.log(error);
+    }
+}

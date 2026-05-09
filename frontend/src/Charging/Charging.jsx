@@ -171,7 +171,6 @@ function Charging() {
                     <td>
                       <select
                         value={rec.session}
-                        disabled={rec.session === "Collected"}
                         onChange={(e) =>
                           handleSessionChange(rec._id, e.target.value)
                         }
