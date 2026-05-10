@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState([]);
 
   function handleLogout() {
     localStorage.clear();
@@ -18,48 +18,50 @@ function Navbar() {
   }
 
 
- const fetchUserName = async () => {
+  const fetchUserName = async () => {
     try {
       const res = await fetch("https://chargingportal.onrender.com/api/auth/user");
       const data = await res.json();
-      setUserName(data.userName);
+      setUserName(data.registrar);
     } catch (err) {
       toast.error("Failed to fetch data");
     }
   };
 
-useEffect(() => {
-  fetchUserName();
-}, []);
+  useEffect(() => {
+    fetchUserName();
+  }, []);
 
   return (
     <nav>
-      <ToastContainer/>
+      <ToastContainer />
       <div className="logo">LFC Charging Portal</div>
-
-      <div className="nav-links">
-        <button className="linkBtn" onClick={() => navigate("/charging")}>
-          Active Session
-        </button>
-        <button className="linkBtn" onClick={() => navigate("/create")}>
-          Start Session
-        </button>
-         <button className="linkBtn" onClick={() => navigate("/registeredUser")}>
-          Registered Session
-        </button>
-      </div>
 
       <div className="profile">
         <div>
-        {userName ? `Welcome ${userName}` : 'Guest' }
-      </div>
-      <div>
-        <button className="logoutBtn" onClick={handleLogout}>
-          Logout
-        </button>
+          {userName ? `Welcome ${userName}` : 'Guest'}
+        </div>
+        <div>
+          
+          <div className="nav-links">
+            <button className="linkBtn" onClick={() => navigate("/charging")}>
+              Active Session
+            </button>
+            <button className="linkBtn" onClick={() => navigate("/create")}>
+              Start Session
+            </button>
+            <button className="linkBtn" onClick={() => navigate("/registeredUser")}>
+              Registered Session
+            </button>
+          </div>
+
+
+          <button className="logoutBtn" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </div>
-      
+
     </nav>
   );
 }
