@@ -20,7 +20,7 @@ function Navbar() {
 
   const fetchUserName = async () => {
     try {
-      const res = await fetch("https://chargingportal.onrender.com/api/auth/user");
+      const res = await fetch("https://chargingportal.onrender.com/api/charge");
       const data = await res.json();
       setUserName(data.registrar);
     } catch (err) {
@@ -42,7 +42,7 @@ function Navbar() {
           {userName ? `Welcome ${userName}` : 'Guest'}
         </div>
         <div>
-          
+
           <div className="nav-links">
             <button className="linkBtn" onClick={() => navigate("/charging")}>
               Active Session
