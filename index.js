@@ -125,7 +125,7 @@
 //       session: document.getElementById("edit-session-input").value
 //     };
 
-    
+
 //     try {
 //       const res = await fetch(`${apiURL}/${editingId}`, {
 //         method: 'PUT',
@@ -133,7 +133,7 @@
 //         body: JSON.stringify(updatedData)
 //       });
 
-      
+
 
 //       if (res.ok) {
 //         modal3.style.display = 'none';
@@ -170,20 +170,6 @@
 
 const api = "https://chargingportal.onrender.com/api/auth/users"
 
-async function fetchUserNames(){
-    try{        
-        const res = await fetch(api)
-        const data = await res.json()
-        const output = document.getElementById("output")
-        output.textContent = ""
-
-        data.forEach((element, index) => {
-            const userName = document.createElement("span");
-
-            userName.textContent = `
-            <span>${element.userName}</span>`
-        });
-    } catch(error){
-        console.log(error);
-    }
-}
+ const res = await fetch(api)
+    const data = await res.json()
+    console.log(data)
