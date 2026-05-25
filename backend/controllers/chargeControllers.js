@@ -38,20 +38,6 @@ export const postCharge = async (req, res) => {
   try {
     const { date, time } = nowLagos();
 
-    const ALL_PINS = ["Pin 1", "Pin 2", "Pin 3", "Pin 4", "Pin 5", "Pin 6"];
-
-    const activeSessions = await charge.find({ status: "active" });
-
-    const usedPins = activeSessions.map(s => s.sessionPins).filter(Boolean);
-
-    const availablePins = ALL_PINS.filter(pin => !usedPins.includes(pin));
-
-    if (availablePins.length === 0) {
-      return res.status(400).json({ message: "No available pins" });
-    }
-
-    const assignedPin = availablePins[0];
-
     const newCharge = new charge({
       ...req.body,
       sessionPins: assignedPin,
