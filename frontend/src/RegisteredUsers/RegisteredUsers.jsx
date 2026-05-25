@@ -89,6 +89,7 @@ export default function RegisteredUsers() {
 
   return (
     <>
+    <Loader/>
       <Navbar />
       <div className='registered-container'>
         <ToastContainer />
