@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "./Login.css";
+
 export default function Login() {
   const navigate = useNavigate();
 
@@ -54,41 +56,51 @@ export default function Login() {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: 400 }}>
-      <ToastContainer />
+  <div className="authLayout">
 
-      <form onSubmit={handleSubmit} className="card p-4 shadow">
-        <h4 className="mb-3 text-center text-primary">Login</h4>
-
-        <input
-          name="userName"
-          className="form-control mb-3"
-          placeholder="Username"
-          value={form.userName}
-          onChange={handleChange}
-        />
-
-        <input
-          name="userPassword"
-          type="password"
-          className="form-control mb-3"
-          placeholder="Password"
-          value={form.userPassword}
-          onChange={handleChange}
-        />
-
-        <button type="submit" className="btn btn-primary w-100 mb-2">
-          Login
-        </button>
-
-        <button
-          type="button"
-          className="btn btn-warning w-100"
-          onClick={handleRegister}
-        >
-          Register
-        </button>
-      </form>
+  {/* LEFT SIDE */}
+  <div className="left">
+    <div className="centered">
+      <img src="" alt="winnerslogo" />
+      <h3>Welcome Back!</h3>
+      <p>Don't have an account yet?</p>
+      <button onClick={handleRegister} className="btn secondary">
+        Register
+      </button>
     </div>
+  </div>
+
+  {/* RIGHT SIDE */}
+  <div className="right">
+    <ToastContainer />
+
+    <form onSubmit={handleSubmit} className="formContainer">
+      <h4>Login</h4>
+      <p>click here to continue</p>
+      <input
+        className="input"
+        name="userName"
+        placeholder="Username"
+        value={form.userName}
+        onChange={handleChange}
+      />
+
+      <input
+        className="input"
+        name="userPassword"
+        type="password"
+        placeholder="Password"
+        value={form.userPassword}
+        onChange={handleChange}
+      />
+
+      <button type="submit" className="btn primary">
+        Login
+      </button>
+    </form>
+  </div>
+
+</div>
+
   );
 }

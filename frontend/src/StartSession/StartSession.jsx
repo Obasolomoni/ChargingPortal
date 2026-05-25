@@ -67,10 +67,10 @@ function StartSession() {
       <Loader />
       <ToastContainer />
 
-      <div style={{ marginLeft: "270px", padding: "20px" }}>
+      <div className="form-container">
         <h3>Start Session</h3>
 
-        <form onSubmit={handleSubmit} className="form-container">
+        <form onSubmit={handleSubmit}>
           <div className="form-grid">
 
             <input
@@ -120,6 +120,8 @@ function StartSession() {
 
           <button type="submit">Start Session</button>
         </form>
+
+       
       </div>
     </>
   );

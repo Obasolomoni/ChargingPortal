@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "./Register.css"
 export default function Register() {
   const navigate = useNavigate();
 
@@ -61,50 +62,54 @@ export default function Register() {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: 400 }}>
-      <ToastContainer />
+    <div className="authLayout">
 
-      <form onSubmit={handleSubmit} className="card p-4 shadow">
-        <h4 className="mb-3 text-center text-success">Register</h4>
-
-        <input
-          name="userName"
-          className="form-control mb-3"
-          placeholder="Username"
-          value={form.userName}
-          onChange={handleChange}
-        />
-
-        <input
-          name="userEmail"
-          type="email"
-          className="form-control mb-3"
-          placeholder="Email"
-          value={form.userEmail}
-          onChange={handleChange}
-        />
-
-        <input
-          name="userPassword"
-          type="password"
-          className="form-control mb-3"
-          placeholder="Password"
-          value={form.userPassword}
-          onChange={handleChange}
-        />
-
-        <button type="submit" className="btn btn-success w-100 mb-2">
-          Register
-        </button>
-
-        <button
-          type="button"
-          className="btn btn-primary w-100"
-          onClick={handleLogin}
-        >
+      {/* LEFT SIDE */}
+      <div className="leftSide">
+        <h2>Welcome 👋</h2>
+        <p>Already have an account?</p>
+        <button type="button" className="btn primary" onClick={handleLogin}>
           Login
         </button>
-      </form>
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="rightSide">
+        <form onSubmit={handleSubmit} className="formCard">
+          <h4 className="title">Register</h4>
+          <p>Create an account to continue</p>
+          <input
+            className="input"
+            name="userName"
+            placeholder="Username"
+            value={form.userName}
+            onChange={handleChange}
+          />
+
+          <input
+            className="input"
+            name="userEmail"
+            type="email"
+            placeholder="Email"
+            value={form.userEmail}
+            onChange={handleChange}
+          />
+
+          <input
+            className="input"
+            name="userPassword"
+            type="password"
+            placeholder="Password"
+            value={form.userPassword}
+            onChange={handleChange}
+          />
+
+          <button type="submit" className="btn secondary">
+            Register
+          </button>
+        </form>
+      </div>
+
     </div>
   );
 }

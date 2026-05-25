@@ -1,52 +1,71 @@
-nav {
-  height: 100vh;
-  width: 250px;
-  padding: 20px;
-  background: linear-gradient(to bottom, #1e3a8a, #2563eb);
-  color: #fff;
-  position: fixed;
+/* TOP BAR */
+.topbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e3a8a;
+  color: white;
+  padding: 0 20px;
+  position: sticky;
+  z-index: 1;
   top: 0;
   left: 0;
+  
 }
 
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 30px;
+/* HAMBURGER */
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
 }
 
-.nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 250px;
+  height: calc(100% - 60px);
+  background: #2563eb;
+  padding: 20px;
+
+  transform: translateX(-100%);
+  transition: 0.3s ease;
 }
 
-.linkBtn {
-  background: none;
+/* OPEN STATE */
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* BUTTONS */
+.sidebar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
   border: none;
+  background: transparent;
   color: white;
   text-align: left;
-  padding: 12px;
-  border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.linkBtn:hover {
-  background: rgba(255,255,255,0.15);
 }
 
 .logoutBtn {
-  background: #ef4444;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  width: 100%;
+  background: red;
+  margin-top: 22rem;
+  border-radius: 15px;
 }
 
-.profile {
-  margin-top: auto;
-  padding-top: 200%;
+/* CONTENT AREA */
+.content {
+  margin-left: 0;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+/* WHEN SIDEBAR OPEN */
+.content.shifted {
+  margin-left: 250px;
 }

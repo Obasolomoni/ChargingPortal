@@ -1,69 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-
 import "./Navbar.css";
 
-function Navbar() {
+export default function Navbar() {
   const navigate = useNavigate();
-
+  const [userName, setUserName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUserName] = useState([]);
-
-  function handleLogout() {
-    localStorage.clear();
-    navigate("/login");
-  }
-
-
-  const fetchUserName = async () => {
-    try {
-      const res = await fetch("https://chargingportal.onrender.com/api/charge");
-      const data = await res.json();
-      setUserName(data.registrar);
-    } catch (err) {
-      toast.error("Failed to fetch data");
-    }
-  };
 
   useEffect(() => {
-    fetchUserName();
+    const storedUser = localStorage.getItem("userName");
+    setUserName(storedUser);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
   return (
-    <nav>
-      <ToastContainer />
-      <div className="logo">LFC Charging Portal</div>
-
-      <div className="profile">
-        <div>
-          {userName ? `Welcome ${userName}` : 'Guest'}
+    <>
+      {/* TOP BAR ALWAYS VISIBLE */}
+      <div className="topbar">
+        <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+          ☰
         </div>
-        <div>
-
-          <div className="nav-links">
-            <button className="linkBtn" onClick={() => navigate("/charging")}>
-              Active Session
-            </button>
-            <button className="linkBtn" onClick={() => navigate("/create")}>
-              Start Session
-            </button>
-            <button className="linkBtn" onClick={() => navigate("/registeredUser")}>
-              Registered Session
-            </button>
-          </div>
-
-
-          <button className="logoutBtn" onClick={handleLogout}>
-            Logout
-          </button>
+        <div className="logo">LFC Charging Portal</div>
+        <div className="user">
+          {userName ? `Hi, ${userName}` : "Guest"}
         </div>
       </div>
 
-    </nav>
+      {/* SIDEBAR */}
+      <nav className={isOpen ? "sidebar open" : "sidebar"}>
+        <button onClick={() => navigate("/charging")}>Active Session</button>
+        <button onClick={() => navigate("/create")}>Start Session</button>
+        <button onClick={() => navigate("/registeredUser")}>
+          Registered Session
+        </button>
+
+        <div className="logoutBtn">
+                  <button onClick={handleLogout}>
+          Logout
+        </button>
+        </div>
+
+      </nav>
+    </>
   );
 }
-
-export default Navbar;

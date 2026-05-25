@@ -1,6 +1,9 @@
 body {
   background-color: #f3f4f6;
 }
+.form-container {
+  padding: 25px;
+}
 
 .form-grid {
   display: flex;

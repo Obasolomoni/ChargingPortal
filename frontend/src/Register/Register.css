@@ -1,0 +1,66 @@
+/* MAIN LAYOUT */
+.authLayout {
+  display: flex;       /* 🔥 THIS creates left + right */
+  height: 100vh;
+}
+
+/* LEFT SIDE (BLUE) */
+.leftSide {
+  flex: 1;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+  text-align: center;
+}
+
+/* RIGHT SIDE (WHITE) */
+.rightSide {
+  flex: 1;
+  background: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* FORM CARD */
+.formCard {
+  width: 100%;
+  max-width: 350px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* INPUT */
+.input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.btn {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.secondary {
+  background: #f59e0b;
+  color: white;
+  width: 50%;
+}
