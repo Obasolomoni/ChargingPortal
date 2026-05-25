@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./Login.css";
+import Loader from "../Loader/Loader";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -56,6 +57,8 @@ export default function Login() {
   };
 
   return (
+    <>
+    <Loader />
   <div className="authLayout">
 
   {/* LEFT SIDE */}
@@ -101,6 +104,6 @@ export default function Login() {
   </div>
 
 </div>
-
+</>
   );
 }

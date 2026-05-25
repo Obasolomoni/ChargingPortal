@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./Register.css"
+import Loader from "../Loader/Loader";
 export default function Register() {
   const navigate = useNavigate();
 
@@ -62,6 +63,8 @@ export default function Register() {
   };
 
   return (
+    <>
+    <Loader />
     <div className="authLayout">
 
       {/* LEFT SIDE */}
@@ -111,5 +114,6 @@ export default function Register() {
       </div>
 
     </div>
+    </>
   );
 }

@@ -40,9 +40,7 @@ export const postCharge = async (req, res) => {
 
     const newCharge = new charge({
       ...req.body,
-      sessionPins: assignedPin,
       registrar: req.user.userName, // 🔥 from JWT
-      status: "active",
 
       dateCharged: req.body.session === "Charging" ? date : "",
       timeCharged: req.body.session === "Charging" ? time : "",
@@ -53,7 +51,6 @@ export const postCharge = async (req, res) => {
     res.status(201).json({
       message: "Session created",
       session: newCharge,
-      assignedPin
     });
 
   } catch (err) {
@@ -68,7 +65,6 @@ export const updateCharge = async (req, res) => {
     const { session } = req.body;
     const { date, time } = nowLagos();
 
-    const updateData = { session };
 
     if (session === "Charging") {
       updateData.dateCharged = date;
@@ -82,7 +78,7 @@ export const updateCharge = async (req, res) => {
       updateData.timeCollected = time;
 
       // 🔥 FREE THE PIN
-      updateData.status = "inactive";
+
     }
 
     const updated = await charge.findByIdAndUpdate(

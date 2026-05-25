@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-const pinSchema = new mongoose.Schema({
-    pins: {}
-})
+// const pinSchema = new mongoose.Schema({
+//     pins: {}
+// })

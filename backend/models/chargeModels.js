@@ -13,8 +13,6 @@ const chargeSchema = new mongoose.Schema({
   dateCollected: { type: String, default: "" },
   timeCollected: { type: String, default: "" },
 
-  sessionPins: {type: String, required: true},
-
   registrar: {type: String, required:true},
 });
 
