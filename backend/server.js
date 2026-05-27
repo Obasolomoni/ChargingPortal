@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import chargeRoutes from "./routes/chargeRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import pinRoutes from ".routes/pinRoutes.js"
+import pinRoutes from "./routes/pinRoutes.js"
 import connectDB from "./models/db.js";
 
 // 🔥 Force Node.js to use Lagos timezone
@@ -21,7 +21,6 @@ app.use(
     origin: [
       "https://charging-portal.vercel.app",
       "http://localhost:5173",
-      "http://localhost:5173/api/pins"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
@@ -33,7 +32,7 @@ app.use(express.json());
 // Routes
 app.use("/api/charge", chargeRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/pins", pinRoutes)
+app.use("/api", pinRoutes)
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on PORT ${PORT}`);
