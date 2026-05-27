@@ -174,6 +174,7 @@ function Charging() {
                         onChange={(e) =>
                           handleSessionChange(rec._id, e.target.value)
                         }
+                        disabled={rec.session === "Collected"}
                       >
                         <option value="Pending">Pending</option>
                         <option value="Charging">Charging</option>
