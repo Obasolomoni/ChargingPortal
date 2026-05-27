@@ -1,16 +1,30 @@
 import { generate } from "raidmaker";
+import charge from "../models/chargeModels.js";
 
 export const pinCreates = async (req, res) => {
   try {
-    const pins = generate(8, { no: 6, mode: "figs" });
+    // 🔥 Generate 6-digit pin
+    const pins = generate(1, { no: 6, mode: "figs" });
 
-    if (!pins || pins.length === 0) {
-      return res.status(400).json({ message: "Failed to generate pins" });
+    const assignedPin = pins[0]; // take one pin
+
+    if (!assignedPin) {
+      return res.status(400).json({ message: "Failed to generate pin" });
     }
 
-    res.status(200).json({
-      message: "Pins generated",
-      pins
+    // 🔥 Create session with pin
+    const newSession = new charge({
+      ...req.body,
+      sessionPins: assignedPin
+    });
+
+    await newSession.save();
+
+    // 🔥 Send pin back to frontend
+    res.status(201).json({
+      message: "Session created successfully",
+      assignedPin,
+      session: newSession
     });
 
   } catch (err) {
