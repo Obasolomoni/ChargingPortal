@@ -1,103 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-body {
+/* ===== GLOBAL RESET ===== */
+* {
   margin: 0;
   padding: 0;
-}
-/* Container */
-.charging-container {
-  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* Search input */
+/* ===== CONTAINER ===== */
+.charging-container {
+  margin-top: 20px;
+}
+
+/* ===== SEARCH ===== */
 .searchInput {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px 12px;
-  margin-bottom: 20px;
+  width: 300px;
+  max-width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  font-size: 16px;
 }
 
-/* Table wrapper for horizontal scroll */
+/* ===== TABLE WRAPPER ===== */
 .table-wrapper {
-  background: white;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  overflow-x: auto;
+  /* 🔥 prevents breaking */
 }
 
-/* Table */
+/* ===== TABLE ===== */
 table {
   width: 100%;
-  border-collapse: collapse;
   min-width: 1000px;
-  /* prevents squashing columns */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  /* 🔥 keeps structure */
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
   overflow: hidden;
 }
 
-thead th {
-  background-color: #1f2937;
+/* ===== HEAD ===== */
+thead {
+  background: #1e3a8a;
   color: white;
+  position: sticky;
+  top: 0;
 }
 
-tbody td {
+/* ===== CELLS ===== */
+th,
+td {
   padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-  color: #111;
+  text-align: left;
+  white-space: nowrap;
+  /* 🔥 prevents ugly wrapping */
+  border-bottom: 1px solid #eee;
 }
 
-tbody tr {
-  transition: 0.2s;
+/* ===== ROW STRIPES ===== */
+tbody tr:nth-child(even) {
+  background: #f9fafb;
 }
 
-tbody tr:hover {
-  background-color: #e0f2fe;
-}
-
-/* Status badges */
+/* ===== BADGES ===== */
 .badge {
   padding: 5px 10px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  border-radius: 6px;
   color: white;
+  font-size: 12px;
 }
 
 .badge-charging {
-  background-color: #28a745;
+  background: green;
 }
 
 .badge-pending {
-  background-color: #ffc107;
-  color: #111;
+  background: orange;
 }
 
 .badge-collected {
-  background-color: #17a2b8;
+  background: gray;
 }
 
-/* Empty row */
-.emptyRow {
-  padding: 20px;
-  color: gray;
-}
-
-/* Select dropdown */
+/* ===== SELECT ===== */
 select {
-  padding: 5px 8px;
-  border-radius: 6px;
+  padding: 6px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  cursor: pointer;
-  font-size: 0.9rem;
 }
 
-select:focus {
-  outline: none;
-  border-color: #007BFF;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+/* ============================= */
+/* 🔥 UNIVERSAL RESPONSIVENESS */
+/* ============================= */
+
+/* Tablet + Mobile */
+@media (max-width: 1024px) {
+
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  h2 {
+    text-align: center;
+  }
+
+  select {
+    font-size: 12px;
+  }
+
+  .searchInput {
+    width: 300px;
+    max-width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  select {
+    width: 100%;
+  }
 }
