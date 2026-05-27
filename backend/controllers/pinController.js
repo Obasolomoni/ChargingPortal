@@ -4,7 +4,7 @@ import charge from "../models/chargeModels.js";
 export const pinCreates = async (req, res) => {
   try {
     // 🔥 Generate 6-digit pin
-    const pins = generate(1, { no: 6, mode: "figs" });
+    const pins = generate(10, { no: 6, mode: "figs" });
 
     const assignedPin = pins[0]; // take one pin
 

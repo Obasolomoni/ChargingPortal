@@ -3,6 +3,6 @@ import { pinCreates } from "../controllers/pinController.js";
 
 const router = express.Router();
 
-router.get("/", pinCreates);
+router.post("/", pinCreates);
 
 export default router;
