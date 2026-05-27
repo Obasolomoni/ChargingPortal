@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./StartSession.css";
 
 function StartSession() {
+  const [pins, setPins] = useState([]);
   const [formData, setFormData] = useState({
     personName: "",
     mobileName: "",
@@ -14,7 +15,7 @@ function StartSession() {
     slotName: "",
     session: "Charging",
     Registrar: "",
-    sessionPins:""
+    sessionPins: ""
   });
 
   // 🔥 Handle input changes
@@ -53,7 +54,7 @@ function StartSession() {
           userNumber: "",
           slotName: "",
           session: "Charging",
-          sessionPins:""
+          sessionPins: ""
         });
       } else {
         toast.error(data.message);
@@ -62,6 +63,25 @@ function StartSession() {
       toast.error("Server error");
     }
   };
+
+  const fetchPins = async () => {
+    try {
+      const res = await fetch("https://chargingportal.onrender.com/api/pins");
+      const data = await res.json();
+
+      if (res.ok) {
+        setPins(data.pins);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error("Failed to fetch pins");
+    }
+  };
+
+  useEffect(() => {
+    fetchPins();
+  }, []);
 
   return (
     <>
@@ -118,20 +138,27 @@ function StartSession() {
               <option value="Pending">Pending</option>
             </select>
 
-             <input
+            <select
               name="sessionPins"
-              type="text"
-              placeholder="Enter sessionPins"
               value={formData.sessionPins}
               onChange={handleChange}
-            />
+              className="selectBar"
+            >
+              <option value="">Select Pin</option>
+
+              {pins.map((pin, index) => (
+                <option key={index} value={pin}>
+                  {pin}
+                </option>
+              ))}
+            </select>
 
           </div>
 
           <button type="submit">Start Session</button>
         </form>
 
-       
+
       </div>
     </>
   );

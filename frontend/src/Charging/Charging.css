@@ -40,10 +40,7 @@ table {
 
 /* ===== HEAD ===== */
 thead {
-  background: #1e3a8a;
   color: white;
-  position: sticky;
-  top: 0;
 }
 
 /* ===== CELLS ===== */

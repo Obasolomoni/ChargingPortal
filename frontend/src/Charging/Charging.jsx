@@ -17,7 +17,7 @@ function Charging() {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Successful")
+        toast.success("Successful");
       }
       else {
         toast.warn("Error")
@@ -28,26 +28,8 @@ function Charging() {
     }
   };
 
-  const fetchUserName = async () => {
-    const res = await fetch("https://chargingportal.onrender.com/api/auth/user");
-    const data = await res.json();
-
-    try {
-      if (res.ok) {
-        toast.success("Successful")
-      }
-      else {
-        toast.warn("Error")
-      }
-      setRows(data)
-    } catch (err) {
-      toast.error("Failed to fetch data")
-    }
-  }
-
   useEffect(() => {
     fetchData();
-    fetchUserName();
   }, []);
 
   // Update session
