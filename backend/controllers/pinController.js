@@ -1,4 +1,4 @@
-import { generate } from "raidmaker";
+const {generate} = require("raidmaker");
 import charge from "../models/chargeModels.js";
 
 export const pinCreates = async (req, res) => {
