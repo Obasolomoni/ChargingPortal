@@ -13,7 +13,8 @@ function StartSession() {
     userNumber: "",
     slotName: "",
     session: "Charging",
-    Registrar: ""
+    Registrar: "",
+    sessionPins:""
   });
 
   // 🔥 Handle input changes
@@ -51,7 +52,8 @@ function StartSession() {
           mobileName: "",
           userNumber: "",
           slotName: "",
-          session: "Charging"
+          session: "Charging",
+          sessionPins:""
         });
       } else {
         toast.error(data.message);
@@ -115,6 +117,14 @@ function StartSession() {
               <option value="Charging">Charging</option>
               <option value="Pending">Pending</option>
             </select>
+
+             <input
+              name="sessionPins"
+              type="text"
+              placeholder="Enter sessionPins"
+              value={formData.sessionPins}
+              onChange={handleChange}
+            />
 
           </div>
 

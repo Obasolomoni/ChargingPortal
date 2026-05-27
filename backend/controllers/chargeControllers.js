@@ -40,7 +40,7 @@ export const postCharge = async (req, res) => {
 
     const newCharge = new charge({
       ...req.body,
-      registrar: req.user.userName, // 🔥 from JWT
+      registrar: req.user.userName, // 🔥 from JWT token
 
       dateCharged: req.body.session === "Charging" ? date : "",
       timeCharged: req.body.session === "Charging" ? time : "",
@@ -65,7 +65,7 @@ export const updateCharge = async (req, res) => {
     const { session } = req.body;
     const { date, time } = nowLagos();
 
-
+    const updateData = {session}
     if (session === "Charging") {
       updateData.dateCharged = date;
       updateData.timeCharged = time;
@@ -73,7 +73,13 @@ export const updateCharge = async (req, res) => {
       updateData.timeCollected = "";
     }
 
-    if (session === "Collected") {
+    else if (session === "Pending") {
+      updateData.dateCharged = "";
+      updateData.timeCharged = "";
+      updateData.dateCollected = "";
+      updateData.timeCollected = "";
+    }
+    else if(session === "Collected") {
       updateData.dateCollected = date;
       updateData.timeCollected = time;
 
