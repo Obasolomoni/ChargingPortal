@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import chargeRoutes from "./routes/chargeRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import pinRoutes from "./routes/pinRoutes.js"
 import connectDB from "./models/db.js";
 
 // 🔥 Force Node.js to use Lagos timezone
@@ -32,7 +31,6 @@ app.use(express.json());
 // Routes
 app.use("/api/charge", chargeRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api", pinRoutes)
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on PORT ${PORT}`);

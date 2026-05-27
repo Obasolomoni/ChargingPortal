@@ -1,4 +1,7 @@
 import charge from "../models/chargeModels.js";
+import pkg from "raidmaker";
+const { generate } = pkg;
+
 
 // 🔥 Time helper
 const nowLagos = () => {
@@ -34,27 +37,46 @@ export const getChargeById = async (req, res) => {
 };
 
 // ✅ CREATE SESSION (MAIN LOGIC)
-export const postCharge = async (req, res) => {
+
+
+export const createCharge = async (req, res) => {
   try {
+    // 🔥 Generate PIN
+    const pins = generate(10, { no: 6, mode: "figs" });
+    const assignedPin = pins[0];
+
+    if (!assignedPin) {
+      return res.status(400).json({ message: "Failed to generate pin" });
+    }
+
+    // 🔥 Get time/date
     const { date, time } = nowLagos();
 
-    const newCharge = new charge({
+    // 🔥 Create FULL session (everything merged)
+    const newSession = new charge({
       ...req.body,
-      registrar: req.user.userName, // 🔥 from JWT token
 
+      // ✅ from JWT
+      registrar: req.user?.userName || "Unknown",
+
+      // ✅ generated pin
+      sessionPins: assignedPin,
+
+      // ✅ conditional time/date
       dateCharged: req.body.session === "Charging" ? date : "",
       timeCharged: req.body.session === "Charging" ? time : "",
     });
 
-    await newCharge.save();
+    await newSession.save();
 
     res.status(201).json({
-      message: "Session created",
-      session: newCharge,
+      message: "Session created successfully",
+      assignedPin,
+      session: newSession,
     });
 
   } catch (err) {
-    console.error("POST ERROR:", err);
+    console.error("CREATE ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 };

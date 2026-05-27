@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import Loader from "../Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,80 +7,86 @@ import "react-toastify/dist/ReactToastify.css";
 import "./StartSession.css";
 
 function StartSession() {
-  const [pins, setPins] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [generatedPin, setGeneratedPin] = useState("");
+
   const [formData, setFormData] = useState({
     personName: "",
     mobileName: "",
     userNumber: "",
     slotName: "",
     session: "Charging",
-    Registrar: "",
-    sessionPins: ""
   });
 
-  // 🔥 Handle input changes
+  // 🔥 handle input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  // 🔥 Submit session
+  // 🔥 submit form (MAIN LOGIC)
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // simple validation
+    if (!formData.personName || !formData.mobileName) {
+      return toast.error("Please fill all required fields");
+    }
+
+    setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://chargingportal.onrender.com/api/charge", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` // ✅ FIXED
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        "https://chargingportal.onrender.com/api/charge",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await res.json();
 
       if (res.ok) {
-        toast.success(`Session created! Pin: ${data.assignedPin}`);
+        setGeneratedPin(data.assignedPin);
 
+        // optional: persist pin
+        localStorage.setItem("currentPin", data.assignedPin);
+
+        toast.success("Session started successfully");
+
+        // reset form (but keep pin)
         setFormData({
           personName: "",
           mobileName: "",
           userNumber: "",
           slotName: "",
           session: "Charging",
-          sessionPins: ""
         });
       } else {
         toast.error(data.message);
       }
     } catch (err) {
       toast.error("Server error");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fetchPins = async () => {
-    try {
-      const res = await fetch("https://chargingportal.onrender.com/api/pins");
-      const data = await res.json();
-
-      if (res.ok) {
-        setPins(data.sessionPins);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (err) {
-      toast.error("Failed to fetch pins");
-    }
-  };
-
+  // 🔥 restore pin after refresh
   useEffect(() => {
-    fetchPins();
+    const savedPin = localStorage.getItem("currentPin");
+    if (savedPin) {
+      setGeneratedPin(savedPin);
+    }
   }, []);
 
   return (
@@ -90,7 +96,7 @@ function StartSession() {
       <ToastContainer />
 
       <div className="form-container">
-        <h3>Start Session</h3>
+        <h3>Start Charging Session</h3>
 
         <form onSubmit={handleSubmit}>
           <div className="form-grid">
@@ -98,15 +104,16 @@ function StartSession() {
             <input
               name="personName"
               type="text"
-              placeholder="Enter Name"
+              placeholder="Customer Name"
               value={formData.personName}
               onChange={handleChange}
+              required
             />
 
             <input
               name="userNumber"
               type="text"
-              placeholder="Enter Phone Number"
+              placeholder="Phone Number"
               value={formData.userNumber}
               onChange={handleChange}
             />
@@ -114,20 +121,20 @@ function StartSession() {
             <input
               name="mobileName"
               type="text"
-              placeholder="Enter Mobile Name"
+              placeholder="Phone Model"
               value={formData.mobileName}
               onChange={handleChange}
+              required
             />
 
             <input
               name="slotName"
               type="text"
-              placeholder="Enter Slot Name"
+              placeholder="Charging Slot"
               value={formData.slotName}
               onChange={handleChange}
             />
 
-            {/* ✅ FIXED select */}
             <select
               name="session"
               value={formData.session}
@@ -138,27 +145,40 @@ function StartSession() {
               <option value="Pending">Pending</option>
             </select>
 
-            <select
-              name="sessionPins"
-              value={formData.sessionPins}
-              onChange={handleChange}
-              className="selectBar"
-            >
-              <option value="">Select Pin</option>
-
-              {pins.map((pin, index) => (
-                <option key={index} value={pin}>
-                  {pin}
-                </option>
-              ))}
-            </select>
-
           </div>
 
-          <button type="submit">Start Session</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Generating PIN..." : "Start Session"}
+          </button>
         </form>
 
+        {/* 🔥 PIN DISPLAY */}
+        {generatedPin && (
+          <div className="pinBox">
+            <h3>Charging PIN</h3>
+            <h1>{generatedPin}</h1>
 
+            <div className="pin-actions">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(generatedPin);
+                  toast.success("PIN copied!");
+                }}
+              >
+                Copy PIN
+              </button>
+
+              <button
+                onClick={() => {
+                  setGeneratedPin("");
+                  localStorage.removeItem("currentPin");
+                }}
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

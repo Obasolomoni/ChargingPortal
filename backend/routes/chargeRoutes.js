@@ -1,5 +1,12 @@
 import express from "express";
-import { getAllCharge, getChargeById, postCharge, updateCharge, deleteCharge } from "../controllers/chargeControllers.js";
+import {
+  getAllCharge,
+  getChargeById,
+  createCharge,
+  updateCharge,
+  deleteCharge
+} from "../controllers/chargeControllers.js";
+
 import protect from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -7,8 +14,8 @@ const router = express.Router();
 router.get("/", getAllCharge);
 router.get("/:id", getChargeById);
 
-// ✅ FIXED: protect this route
-router.post("/", protect, postCharge);
+// 🔥 SINGLE CLEAN ROUTE
+router.post("/", protect, createCharge);
 
 router.put("/:id", updateCharge);
 router.delete("/:id", deleteCharge);
