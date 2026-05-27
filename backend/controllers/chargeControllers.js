@@ -73,13 +73,14 @@ export const updateCharge = async (req, res) => {
       updateData.timeCollected = "";
     }
 
-    else if (session === "Pending") {
+    if (session === "Pending") {
       updateData.dateCharged = "";
       updateData.timeCharged = "";
       updateData.dateCollected = "";
       updateData.timeCollected = "";
     }
-    else if(session === "Collected") {
+    
+    if(session === "Collected") {
       updateData.dateCollected = date;
       updateData.timeCollected = time;
 
