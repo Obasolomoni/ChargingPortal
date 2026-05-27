@@ -70,7 +70,7 @@ function StartSession() {
       const data = await res.json();
 
       if (res.ok) {
-        setPins(data.pins);
+        setPins(data.sessionPins);
       } else {
         toast.error(data.message);
       }
