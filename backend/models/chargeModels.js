@@ -13,9 +13,9 @@ const chargeSchema = new mongoose.Schema({
   dateCollected: { type: String, default: "" },
   timeCollected: { type: String, default: "" },
 
-  registrar: {type: String, required:true},
+  registrar: { type: String, required: true },
 
-  sessionPins: {type: String, required: true},
+  sessionPins: { type: String, required: true, unique: true }
 });
 
 export default mongoose.model("charge", chargeSchema);

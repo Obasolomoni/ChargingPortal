@@ -4,20 +4,35 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1e3a8a;
+  background: #1e40af; /* deeper blue */
   color: white;
   padding: 0 20px;
   position: sticky;
-  z-index: 1;
   top: 0;
-  left: 0;
-  
+  z-index: 1000;
+}
+
+/* LOGO */
+.logo {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* USER TEXT */
+.user {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 /* HAMBURGER */
 .hamburger {
-  font-size: 24px;
+  font-size: 22px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.hamburger:hover {
+  transform: scale(1.1);
 }
 
 /* SIDEBAR */
@@ -25,13 +40,13 @@
   position: fixed;
   top: 60px;
   left: 0;
-  width: 250px;
+  width: 240px;
   height: calc(100% - 60px);
-  background: #2563eb;
-  padding: 20px;
+  background: #1e3a8a;
+  padding: 20px 15px;
 
   transform: translateX(-100%);
-  transition: 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 /* OPEN STATE */
@@ -39,23 +54,114 @@
   transform: translateX(0);
 }
 
-/* BUTTONS */
+/* SIDEBAR BUTTONS */
 .sidebar button {
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 12px 14px;
   border: none;
   background: transparent;
-  color: white;
+  color: #e5e7eb;
   text-align: left;
   cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s;
 }
 
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(87, 81, 81);
+}
+
+/* SETTINGS / LOGOUT CONTAINER */
 .logoutBtn {
-  background: red;
-  margin-top: 22rem;
-  border-radius: 15px;
+  margin-top: auto;
+  position: relative;
+}
+
+/* SETTINGS BUTTON */
+.logoutBtn button {
+  background: #111827;
+  color: white;
+  font-weight: 500;
+}
+
+.logoutBtn button:hover {
+  background: #374151;
+}
+
+/* DROPDOWN PANEL */
+.settingsPanel {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  background: black;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2000;
+}
+
+.settingsPanel button {
+  background: none;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.settingsPanel button:hover {
+  background: #f3f4f6;
+}
+
+/* MODAL */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.modalContent {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modalContent h2 {
+  margin-bottom: 15px;
+}
+
+.modalContent button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.modalContent button:hover {
+  background: #1d4ed8;
 }
 
 /* CONTENT AREA */
@@ -67,5 +173,5 @@
 
 /* WHEN SIDEBAR OPEN */
 .content.shifted {
-  margin-left: 250px;
+  margin-left: 240px;
 }
