@@ -1,14 +1,12 @@
 import charge from "../models/chargeModels.js";
-import { nowLagos } from "../utils/dateandtime.js";
-// 🔥 Time helper
-const nowLagos = () => {
-  return {
-    time: new Date().toLocaleTimeString("en-NG", { timeZone: "Africa/Lagos" }),
-    date: new Date().toLocaleDateString("en-NG", { timeZone: "Africa/Lagos" }),
-  };
+import {nowLagos} from "../utils/dateandtime.js"
+
+// 🔥 PIN generator (NO LIBRARY)
+const generatePin = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-// ✅ GET ALL SESSIONS
+// ✅ GET ALL
 export const getAllCharge = async (req, res) => {
   try {
     const charges = await charge.find().sort({ _id: -1 });
@@ -18,7 +16,7 @@ export const getAllCharge = async (req, res) => {
   }
 };
 
-// ✅ GET SINGLE SESSION
+// ✅ GET ONE
 export const getChargeById = async (req, res) => {
   try {
     const single = await charge.findById(req.params.id);
@@ -34,22 +32,11 @@ export const getChargeById = async (req, res) => {
 };
 
 // ✅ CREATE SESSION (MAIN LOGIC)
-
-
-
-
-// 🔥 custom pin generator
-const generatePin = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
-
 export const createCharge = async (req, res) => {
   try {
     console.log("Incoming body:", req.body);
 
-    // 🔥 Generate PIN safely
-    const assignedPin = generatePin();
-
+    const assignedPin = generatePin(); // 🔥 always works
     const { date, time } = nowLagos();
 
     const newSession = new charge({
@@ -78,13 +65,14 @@ export const createCharge = async (req, res) => {
   }
 };
 
-// ✅ UPDATE SESSION (e.g. Charging → Collected)
+// ✅ UPDATE
 export const updateCharge = async (req, res) => {
   try {
     const { session } = req.body;
     const { date, time } = nowLagos();
 
-    const updateData = {session}
+    const updateData = { session };
+
     if (session === "Charging") {
       updateData.dateCharged = date;
       updateData.timeCharged = time;
@@ -98,13 +86,10 @@ export const updateCharge = async (req, res) => {
       updateData.dateCollected = "";
       updateData.timeCollected = "";
     }
-    
-    if(session === "Collected") {
+
+    if (session === "Collected") {
       updateData.dateCollected = date;
       updateData.timeCollected = time;
-
-      // 🔥 FREE THE PIN
-
     }
 
     const updated = await charge.findByIdAndUpdate(
@@ -115,7 +100,7 @@ export const updateCharge = async (req, res) => {
 
     res.json({
       message: "Session updated",
-      session: updated
+      session: updated,
     });
 
   } catch (err) {
@@ -124,11 +109,10 @@ export const updateCharge = async (req, res) => {
   }
 };
 
-// ✅ DELETE SESSION
+// ✅ DELETE
 export const deleteCharge = async (req, res) => {
   try {
     await charge.findByIdAndDelete(req.params.id);
-
     res.json({ message: "Session deleted" });
   } catch (err) {
     console.error("DELETE ERROR:", err);
