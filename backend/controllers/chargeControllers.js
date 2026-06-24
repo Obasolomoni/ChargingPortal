@@ -1,5 +1,5 @@
 import charge from "../models/chargeModels.js";
-
+import { nowLagos } from "../utils/nowLagos.js";
 // 🔥 Time helper
 const nowLagos = () => {
   return {
@@ -36,34 +36,26 @@ export const getChargeById = async (req, res) => {
 // ✅ CREATE SESSION (MAIN LOGIC)
 
 
-export const createCharge = async (req, res) => {
-  try {
-    // 🔥 Generate PIN
- const generatePin = () => {
+
+
+// 🔥 custom pin generator
+const generatePin = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
-    const assignedPin = generatePins();
 
-    console.log(assignedPin)
+export const createCharge = async (req, res) => {
+  try {
+    console.log("Incoming body:", req.body);
 
-    if (!assignedPin) {
-      return res.status(400).json({ message: "Failed to generate pin" });
-    }
+    // 🔥 Generate PIN safely
+    const assignedPin = generatePin();
 
-    // 🔥 Get time/date
     const { date, time } = nowLagos();
 
-    // 🔥 Create FULL session (everything merged)
     const newSession = new charge({
       ...req.body,
-
-      // ✅ from JWT
-      registrar: req.user?.userName || "Unknown",
-
-      // ✅ generated pin
+      registrar: req.user?.userName || "Guest",
       sessionPins: assignedPin,
-
-      // ✅ conditional time/date
       dateCharged: req.body.session === "Charging" ? date : "",
       timeCharged: req.body.session === "Charging" ? time : "",
     });
@@ -77,8 +69,12 @@ export const createCharge = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("CREATE ERROR:", err);
-    res.status(500).json({ message: err.message });
+    console.error("🔥 ERROR:", err);
+
+    res.status(500).json({
+      message: "Server error",
+      error: err.message,
+    });
   }
 };
 
