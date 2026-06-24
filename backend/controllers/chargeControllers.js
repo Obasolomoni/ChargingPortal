@@ -1,7 +1,6 @@
 import charge from "../models/chargeModels.js";
 
-import pkg from "raidmaker";
-const {generate} = pkg;
+import generate from "raidmaker";
 
 
 // 🔥 Time helper
