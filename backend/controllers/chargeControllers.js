@@ -1,9 +1,5 @@
 import charge from "../models/chargeModels.js";
 
-import pkg from "raidmaker";
-const generate = pkg.default || pkg;
-
-
 // 🔥 Time helper
 const nowLagos = () => {
   return {
@@ -43,8 +39,10 @@ export const getChargeById = async (req, res) => {
 export const createCharge = async (req, res) => {
   try {
     // 🔥 Generate PIN
-    const pins = generate(10, { no: 6, mode: "figs" });
-    const assignedPin = pins[0];
+ const generatePin = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
+    const assignedPin = generatePins();
 
     console.log(assignedPin)
 
