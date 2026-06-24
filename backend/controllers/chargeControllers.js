@@ -1,5 +1,5 @@
 import charge from "../models/chargeModels.js";
-import { nowLagos } from "../utils/nowLagos.js";
+import { nowLagos } from "../utils/dateandtime.js";
 // 🔥 Time helper
 const nowLagos = () => {
   return {
