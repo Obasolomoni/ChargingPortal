@@ -1,10 +1,14 @@
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const API =
-  "http://localhost:2000/dashboard";
+  "https://chargingportal.onrender.com/api/dashboard/dashboard";
 
 export default async function getDashboardStats() {
-  const res = await fetch(
-    `${API}/dashboard`
-  );
+  const res = await fetch(API);
+  if(!res.ok){
+    toast.error("Data not fetched from API")
+  }
 
   return res.json();
 };

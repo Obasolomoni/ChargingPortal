@@ -57,3 +57,23 @@ export const getDashboardStats = async (req, res) => {
     });
   }
 };
+
+export const chargingStats = async (req, res) => {
+    try {
+
+        const sessions = await charge.aggregate([
+            {
+                $match: {
+                    session: "Charging"
+                }
+            }
+        ]);
+
+        res.json(sessions);
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+};

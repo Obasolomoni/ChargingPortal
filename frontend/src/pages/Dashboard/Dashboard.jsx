@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../../components/Navbar/Navbar";
 import StatsCard from "../../components/Dashboard/StatsCard";
 
@@ -20,13 +22,12 @@ function Dashboard() {
     const fetchStats = async () => {
       try {
 
-        const data =
-          await getDashboardStats();
-
+        const data = await getDashboardStats();
         setStats(data);
+        toast.success("Data fetched successfully")
 
       } catch (err) {
-        console.log(err);
+        toast.error("Data Not Found");
       }
     };
 
