@@ -1,3 +1,6 @@
-import { getDashboardStats } from "../controllers/analysisController";
+import { getDashboardStats } from "../controllers/analysisController.js";
 
-router.get("/dashboard/stats", getDashboardStats);
+const router = express.Router();
+router.get("/dashboard", getDashboardStats);
+
+export default router;
