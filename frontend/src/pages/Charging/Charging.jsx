@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./Charging.css";
 
-import Navbar from "../Navbar/Navbar";
-import Loader from "../Loader/Loader";
+import Navbar from "../../components/Navbar/Navbar";
+import Loader from "../../components/Loader/Loader";
 function Charging() {
   const [rows, setRows] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");

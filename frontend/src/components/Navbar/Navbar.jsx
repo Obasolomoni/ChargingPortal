@@ -79,8 +79,6 @@ export default function Navbar() {
                 Open Settings
               </button>
 
-              <button>Generate Pins</button>
-
               <button onClick={handleLogout}>
                 Sign Out
               </button>

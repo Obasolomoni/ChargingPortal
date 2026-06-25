@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./Register.css"
-import Loader from "../Loader/Loader";
+import Loader from "../../components/Loader/Loader";
 export default function Register() {
   const navigate = useNavigate();
 

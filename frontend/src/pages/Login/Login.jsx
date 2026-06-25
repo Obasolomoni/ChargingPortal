@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./Login.css";
-import Loader from "../Loader/Loader";
+import Loader from "../../components/Loader/Loader";
 
 export default function Login() {
   const navigate = useNavigate();

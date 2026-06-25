@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
-import Loader from "../Loader/Loader";
+import Navbar from "../../components/Navbar/Navbar";
+import Loader from "../../components/Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -56,14 +56,16 @@ function StartSession() {
       const data = await res.json();
 
       if (res.ok) {
-        setGeneratedPin(data.assignedPin);
+        const pin = data.assignedPin || data.session?.sessionPins;
 
-        // optional: persist pin
-        localStorage.setItem("currentPin", data.assignedPin);
+        console.log("PIN RECEIVED:", pin); // 🔥 debug
+
+        setGeneratedPin(pin);
+
+        localStorage.setItem("currentPin", pin);
 
         toast.success("Session started successfully");
 
-        // reset form (but keep pin)
         setFormData({
           personName: "",
           mobileName: "",
@@ -71,6 +73,7 @@ function StartSession() {
           slotName: "",
           session: "Charging",
         });
+
       } else {
         toast.error(data.message);
       }
@@ -155,8 +158,9 @@ function StartSession() {
         {/* 🔥 PIN DISPLAY */}
         {generatedPin && (
           <div className="pinBox">
-            <h3>Charging PIN</h3>
+            <h3>Charging Session PIN</h3>
             <h1>{generatedPin}</h1>
+            <p>Give this PIN to the customer after starting the session.</p>
 
             <div className="pin-actions">
               <button
