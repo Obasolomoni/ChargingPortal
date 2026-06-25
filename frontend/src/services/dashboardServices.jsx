@@ -1,9 +1,9 @@
 const API =
-  "https://chargingportal.onrender.com/api/dashboard/stats";
+  "http://localhost:2000/dashboard";
 
 export default async function getDashboardStats() {
   const res = await fetch(
-    `${API}/dashboard/stats`
+    `${API}/dashboard`
   );
 
   return res.json();
