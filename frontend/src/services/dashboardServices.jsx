@@ -2,7 +2,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const API =
-  "https://chargingportal.onrender.com/api/dashboard/dashboard";
+  "https://chargingportal.onrender.com/api/dashboard/stats";
 
 export default async function getDashboardStats() {
   const res = await fetch(API);

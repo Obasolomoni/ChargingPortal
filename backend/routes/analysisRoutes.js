@@ -3,5 +3,6 @@ import { getDashboardStats, chargingStats } from "../controllers/analysisControl
 
 const router = express.Router();
 router.get("/stats", getDashboardStats);
+router.get("/chargeStats", chargingStats);
 
 export default router;
