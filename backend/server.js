@@ -6,9 +6,6 @@ import authRoutes from "./routes/authRoutes.js";
 import analysisRoutes from "./routes/analysisRoutes.js"
 import connectDB from "./models/db.js";
 
-// 🔥 Force Node.js to use Lagos timezone
-process.env.TZ = "Africa/Lagos";
-
 dotenv.config();
 connectDB();
 
