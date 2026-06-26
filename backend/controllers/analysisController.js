@@ -64,7 +64,7 @@ export const chargingStats = async (req, res) => {
         const sessions = await charge.aggregate([
             {
                 $match: {
-                    session: "Collected"
+                    session: "Charging"
                 }
             }
         ]);
