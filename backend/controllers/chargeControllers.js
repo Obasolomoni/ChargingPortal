@@ -1,13 +1,6 @@
 import * as raidmaker from "raidmaker";
 
 const generator = raidmaker.default.default;
-
-const pin = generator.generate(6, {
-  mode: "figs",
-  no: 1,
-});
-
-
 import charge from "../models/chargeModels.js";
 import {nowLagos} from "../utils/dateandtime.js"
 
@@ -46,9 +39,10 @@ export const createCharge = async (req, res) => {
   try {
     console.log("Incoming body:", req.body);
 
-    // const assignedPin = generatePin(); // 🔥 always works
-    const assignedPin = pin();
-
+    const assignedPin = generator.generate(6, {
+      mode: "figs",
+      no: 1,
+    });
 
     const { date, time } = nowLagos();
 
