@@ -7,7 +7,6 @@ const pin = generator.generate(6, {
   no: 1,
 });
 
-console.log(pin);
 
 import charge from "../models/chargeModels.js";
 import {nowLagos} from "../utils/dateandtime.js"
