@@ -1,5 +1,4 @@
-import pkg from "raidmaker";
-const { generate } = pkg;
+const raidmaker = require('raidmaker ')
 
 import charge from "../models/chargeModels.js";
 import {nowLagos} from "../utils/dateandtime.js"
@@ -40,7 +39,7 @@ export const createCharge = async (req, res) => {
     console.log("Incoming body:", req.body);
 
     // const assignedPin = generatePin(); // 🔥 always works
-    const assignedPin = generate(10, {no: 6, mode: "figs"});
+    const assignedPin = raidmaker.generate(10, {no: 6, mode: "figs"});
 
 
     const { date, time } = nowLagos();
