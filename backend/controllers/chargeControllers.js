@@ -39,7 +39,7 @@ export const createCharge = async (req, res) => {
     console.log("Incoming body:", req.body);
 
     // const assignedPin = generatePin(); // 🔥 always works
-    const assignedPin = raidmaker.generate(10, {no: 6, mode: "figs"});
+    const assignedPin = raidmaker(10, {no: 6, mode: "figs"});
 
 
     const { date, time } = nowLagos();
