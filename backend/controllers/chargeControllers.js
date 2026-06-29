@@ -1,4 +1,4 @@
-const raidmaker = require('raidmaker ')
+import raidmaker from "raidmaker";
 
 import charge from "../models/chargeModels.js";
 import {nowLagos} from "../utils/dateandtime.js"
