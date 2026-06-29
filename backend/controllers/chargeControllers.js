@@ -1,10 +1,12 @@
+const generate = require("raidmaker");
+
 import charge from "../models/chargeModels.js";
 import {nowLagos} from "../utils/dateandtime.js"
 
 // 🔥 PIN generator (NO LIBRARY)
-const generatePin = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
+// const generatePin = () => {
+//   return Math.floor(100000 + Math.random() * 900000).toString();
+// };
 
 // ✅ GET ALL
 export const getAllCharge = async (req, res) => {
@@ -36,7 +38,10 @@ export const createCharge = async (req, res) => {
   try {
     console.log("Incoming body:", req.body);
 
-    const assignedPin = generatePin(); // 🔥 always works
+    // const assignedPin = generatePin(); // 🔥 always works
+    const assignedPin = generate(10, {no: 6, mode: "figs"});
+
+    
     const { date, time } = nowLagos();
 
     const newSession = new charge({
