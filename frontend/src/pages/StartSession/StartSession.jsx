@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Loader from "../../components/Loader/Loader";
+import Navbar from "../Navbar/Navbar";
+import Loader from "../Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,7 +9,7 @@ import "./StartSession.css";
 function StartSession() {
   const [loading, setLoading] = useState(false);
   const [generatedPin, setGeneratedPin] = useState("");
-  const [displayPin, setDisplayPin] = useState(true)
+  const [displayPin, setDisplayPin] = useState(false);
 
   const [formData, setFormData] = useState({
     personName: "",
@@ -19,20 +19,33 @@ function StartSession() {
     session: "Charging",
   });
 
-  // 🔥 handle input
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  // 🔥 submit form (MAIN LOGIC)
+  // Automatically hide PIN after 5 seconds
+  useEffect(() => {
+    if (!generatedPin) return;
+
+    setDisplayPin(true);
+
+    const timer = setTimeout(() => {
+      setDisplayPin(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [generatedPin]);
+
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // simple validation
     if (!formData.personName || !formData.mobileName) {
       return toast.error("Please fill all required fields");
     }
@@ -57,15 +70,9 @@ function StartSession() {
       const data = await res.json();
 
       if (res.ok) {
-        const pin = data.assignedPin || data.session?.sessionPins;
+        setGeneratedPin(data.assignedPin);
 
-        console.log("PIN RECEIVED:", pin); // 🔥 debug
-
-        setGeneratedPin(pin);
-
-        localStorage.setItem("currentPin", pin);
-
-        toast.success("Session started successfully");
+        toast.success("Charging session started successfully.");
 
         setFormData({
           personName: "",
@@ -74,34 +81,17 @@ function StartSession() {
           slotName: "",
           session: "Charging",
         });
-
       } else {
-        toast.error(data.message);
+        toast.error(data.message || "Unable to start session.");
       }
     } catch (err) {
-      toast.error("Server error");
+      console.error(err);
+      toast.error("Server error.");
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔥 restore pin after refresh
-  useEffect(() => {
-    const savedPin = localStorage.getItem("currentPin");
-    if (savedPin) {
-      setGeneratedPin(savedPin);
-    }
-  }, []);
-
-  const displyPins = async () =>{
-    const timer = setTimeout(() => {
-      setDisplayPin(false);
-    },5000)
-    return () => clearTimeout(timer);
-  }
-  
-
-  if(!displayPin) return null 
   return (
     <>
       <Navbar />
@@ -113,7 +103,6 @@ function StartSession() {
 
         <form onSubmit={handleSubmit}>
           <div className="form-grid">
-
             <input
               name="personName"
               type="text"
@@ -157,22 +146,22 @@ function StartSession() {
               <option value="Charging">Charging</option>
               <option value="Pending">Pending</option>
             </select>
-
           </div>
 
-          <button type="submit" disabled={loading} onClick={displayPin}>
+          <button type="submit" disabled={loading}>
             {loading ? "Generating PIN..." : "Start Session"}
           </button>
         </form>
 
-
-
-        {/* 🔥 PIN DISPLAY */}
-        {generatedPin && (
+        {displayPin && generatedPin && (
           <div className="pinBox">
             <h3>Charging Session PIN</h3>
+
             <h1>{generatedPin}</h1>
-            <p>Give this PIN to the customer after starting the session.</p>
+
+            <p>
+              Give this PIN to the customer after starting the charging session.
+            </p>
 
             <div className="pin-actions">
               <button
@@ -187,10 +176,10 @@ function StartSession() {
               <button
                 onClick={() => {
                   setGeneratedPin("");
-                  localStorage.removeItem("currentPin");
+                  setDisplayPin(false);
                 }}
               >
-                Clear
+                Close
               </button>
             </div>
           </div>
