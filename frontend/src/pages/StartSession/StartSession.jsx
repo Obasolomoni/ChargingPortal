@@ -9,6 +9,7 @@ import "./StartSession.css";
 function StartSession() {
   const [loading, setLoading] = useState(false);
   const [generatedPin, setGeneratedPin] = useState("");
+  const [displayPin, setDisplayPin] = useState(true)
 
   const [formData, setFormData] = useState({
     personName: "",
@@ -92,6 +93,15 @@ function StartSession() {
     }
   }, []);
 
+  const displyPins = async () =>{
+    const timer = setTimeout(() => {
+      setDisplayPin(false);
+    },5000)
+    return () => clearTimeout(timer);
+  }
+  
+
+  if(!displayPin) return null 
   return (
     <>
       <Navbar />
@@ -150,10 +160,12 @@ function StartSession() {
 
           </div>
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} onClick={displayPin}>
             {loading ? "Generating PIN..." : "Start Session"}
           </button>
         </form>
+
+
 
         {/* 🔥 PIN DISPLAY */}
         {generatedPin && (
