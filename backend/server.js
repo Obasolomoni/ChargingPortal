@@ -18,6 +18,7 @@ app.use(
     origin: [
       "https://charging-portal.vercel.app",
       "http://localhost:5173",
+      "http://127.0.0.1:5500"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
