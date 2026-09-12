@@ -58,8 +58,6 @@ export const getDashboardStats = async (req, res) => {
   }
 };
 
-import charge from "../models/chargeModels.js";
-
 export const getchargingStats = async (req, res) => {
   try {
     const search = req.query.search?.trim() || "";
