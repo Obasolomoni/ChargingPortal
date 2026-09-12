@@ -12,3 +12,15 @@ export default async function getDashboardStats() {
 
   return res.json();
 };
+
+
+const searchApi =
+ "https://chargingportal.onrender.com/api/dashboard/chargeStats";
+
+ export default async function getChargingStats(){
+  const res = await fetch(searchApi);
+  if(!res.ok){
+    toast.error("Data not Found")
+  }
+  return res.json();
+ }

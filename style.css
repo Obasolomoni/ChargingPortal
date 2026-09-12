@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    padding: 30px;
+    color: #333;
+}
+
+/* Header */
+#regContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+#regContainer h3 {
+    font-size: 28px;
+    color: #1e3a8a;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn:hover {
+    background: #1d4ed8;
+}
+
+/* Search */
+
+#mySearch {
+    width: 350px;
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 18px;
+    border: none;
+    background: #10b981;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    background: #059669;
+}
+
+/* Table */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+}
+
+thead {
+    background: #1e3a8a;
+    color: white;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+th {
+    font-weight: bold;
+}
+
+/* Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: white;
+    width: 500px;
+    max-width: 95%;
+    border-radius: 10px;
+    padding: 30px;
+    position: relative;
+    animation: popup .3s ease;
+}
+
+@keyframes popup {
+
+    from {
+        transform: scale(.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}
+
+/* Inputs */
+
+.inputBox {
+    display: grid;
+    gap: 12px;
+}
+
+.inputBox label {
+    font-weight: bold;
+}
+
+.inputBox input,
+.inputBox select,
+#edit-mobileName-input,
+#edit-userNumber-input,
+#edit-slotName-input,
+#edit-session-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.inputBox input:focus,
+.inputBox select:focus,
+#edit-mobileName-input:focus,
+#edit-userNumber-input:focus,
+#edit-slotName-input:focus,
+#edit-session-input:focus {
+    border-color: #2563eb;
+}
+
+/* Create Session Button */
+
+.myButton {
+    width: 100%;
+    margin-top: 10px;
+    background: #2563eb;
+}
+
+.myButton:hover {
+    background: #1d4ed8;
+}
+
+/* Edit Modal Button */
+
+.modal-content button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+    body{
+        padding:20px;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+
+    #regContainer{
+        gap:15px;
+    }
+
+}
