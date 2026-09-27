@@ -4,7 +4,7 @@ import Login from "./pages/Login/Login";
 import Charging from "./pages/Charging/Charging";
 import StartSession from "./pages/StartSession/StartSession";
 import RegisteredUser from "./pages/RegisteredUsers/RegisteredUsers";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./pages/Dashboard/DashboardStats";
 import ProtectedRoute from "./ProtectedRoute"; // ✅ Ensure this matches your file name
 import "./index.css";
 

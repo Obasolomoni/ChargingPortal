@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 const API =
   "https://chargingportal.onrender.com/api/dashboard/stats";
 
-export default async function getDashboardStats() {
+export async function getDashboardStats() {
   const res = await fetch(API);
   if(!res.ok){
     toast.error("Data not fetched from API")
@@ -17,7 +17,7 @@ export default async function getDashboardStats() {
 const searchApi =
  "https://chargingportal.onrender.com/api/dashboard/chargeStats";
 
- export default async function getChargingStats(){
+ export async function getChargingStats(){
   const res = await fetch(searchApi);
   if(!res.ok){
     toast.error("Data not Found")
