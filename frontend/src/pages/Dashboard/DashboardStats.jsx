@@ -131,6 +131,7 @@ export default function DashboardStats() {
 
         <input
           type="text"
+          className="searchBar"
           placeholder="Search device, name, number or PIN..."
           value={search}
           onChange={(e) => handleSearch(e.target.value)}
